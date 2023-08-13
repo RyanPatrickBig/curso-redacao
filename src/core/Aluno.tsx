@@ -1,5 +1,5 @@
 export default class Aluno {
-    #id: string | null
+    #id: string 
     #nome: string
     #data: Date
     #natural: string
@@ -14,7 +14,7 @@ export default class Aluno {
 
     constructor(nome: string, data: Date, natural:string, endereco: string, 
                 celular: string, email: string, pai: string, mae: string, 
-                rg: string, cpf: string, pagamento: string, id: string | null = null){
+                rg: string, cpf: string, pagamento: string, id: string){
                 this.#nome = nome
                 this.#data = data
                 this.#natural = natural
