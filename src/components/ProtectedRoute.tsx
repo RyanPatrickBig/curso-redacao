@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getUserIntoLocalStorage } from '@/utils/authLocalStorage';
 
 const app = initializeApp({
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -23,18 +24,14 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps): ReactElement => {
   const router = useRouter();
 
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push('/login');
-      }
-    });
-
-    if (!getAuth().currentUser) {
+    //  Obter dados do localStorage para verificar se usuário realizou login anteriormente
+    const currentUser = getUserIntoLocalStorage()
+    console.log("Current user", currentUser)
+    if (!currentUser) {
       router.push('/login');
+      return
     }
 
-    return () => unsubscribe();
   }, [router]);
 
   return children;
