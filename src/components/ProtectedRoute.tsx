@@ -24,7 +24,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps): ReactElement => {
   const router = useRouter();
 
   useEffect(() => {
-    //  Obter dados do localStorage para verificar se usuário realizou login anteriormente
     const currentUser = getUserIntoLocalStorage()
     console.log("Current user", currentUser)
     if (!currentUser) {

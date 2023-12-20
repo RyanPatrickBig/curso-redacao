@@ -21,7 +21,6 @@ export default function TurmasAluno() {
   const [nomeUsuario, setNomeUsuario] = useState<string>("");
   const dados = ['nome', 'dia', 'horario', 'professor']
   const cabecalho = ['Matéria', 'Dia', 'Horário', 'Professor']
-  // Obtemos informações do usuário salvas no Localstorage
   const user = getUserIntoLocalStorage();
 
   useEffect(() => {

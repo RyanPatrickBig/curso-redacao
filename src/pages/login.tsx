@@ -2,7 +2,7 @@ import { IconeVoltar } from '@/components/Icones';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { db } from "@/backend/config"
+import { db } from "@/backend/config";
 import { getFirestore, addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import router from 'next/router';
@@ -16,34 +16,30 @@ export default function Login() {
     async function login(e: any) {
         try {
             e.preventDefault()
-            const firestore = getFirestore();
 
-            const alunosRef = collection(firestore, "Estudante");
+            const alunosRef = collection(db, "Estudante");
             const alunosQuery = query(alunosRef, where("email", "==", email));
             const alunosSnapshot = await getDocs(alunosQuery);
 
             if (!alunosSnapshot.empty) {
                 const alunoData = alunosSnapshot.docs[0].data();
-                // Usuário existe, salvamos os dados dele em localStorage através dessa função criada em utils
                 saveUserIntoLocalStorage(alunoData)
                 setUserProfile(alunoData);
                 router.push("/usuario/aluno/perfil");
                 return;
             }
 
-            const funcionariosRef = collection(firestore, "Funcionario");
+            const funcionariosRef = collection(db, "Funcionario");
             const funcionariosQuery = query(funcionariosRef, where("email", "==", email));
             const funcionariosSnapshot = await getDocs(funcionariosQuery);
 
             if (!funcionariosSnapshot.empty) {
                 const funcionarioData = funcionariosSnapshot.docs[0].data();
-                // Usuário existe, salvamos os dados dele em localStorage através dessa função criada em utils
                 saveUserIntoLocalStorage(funcionarioData)
                 setUserProfile(funcionarioData);
                 router.push("/usuario/funcionario");
                 return;
             }
-
 
             console.error("Nenhum usuário encontrado com este email.");
         } catch (error) {
@@ -51,23 +47,6 @@ export default function Login() {
         }
     }
 
-
-    // Esta função não está sendo usada
-    async function adicionarDocumento() {
-        try {
-            const app = db.app;
-            const firestore = getFirestore(app);
-            const novaEntrada = {
-                email: "maria@gmail.com",
-                senha: "123456",
-
-            };
-            const docRef = await addDoc(collection(firestore, "Estudante"), novaEntrada);
-            console.log("Usuário adicionado com ID:", docRef.id);
-        } catch (error) {
-            console.error("Erro ao adicionar documento:", error);
-        }
-    }
     async function loginComGoogle() {
         try {
             const auth = getAuth();

@@ -11,6 +11,8 @@ import { getFirestore, collection, getDocs, where, getDoc,addDoc, updateDoc, del
 import { db } from '@/backend/config';
 import Turma from "@/core/Turma";
 import Link from 'next/link';
+import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
+import ProtectedRoute from '@/components/ProtectedRoute'
 
 
 export default function AlunoIndex() {
@@ -31,8 +33,7 @@ export default function AlunoIndex() {
     const [materiaisDisciplinaSelecionada, setMateriaisDisciplinaSelecionada] = useState<Material[]>([]);
     const [arquivo, setArquivo] = useState<string | null>(null);
 
-    const auth = getAuth();
-    const user = auth.currentUser; 
+    const user = getUserIntoLocalStorage();
 
     useEffect(() => {
       const fetchData = async () => {
@@ -73,18 +74,21 @@ export default function AlunoIndex() {
         const materiaisData: Material[] = [];
     
         for (const turma of turmasDoAluno) {
-          if (disciplinaSelecionada) {
+          try {
             const qMateriais = query(
               collection(db, "Material"),
               where("disciplina", "==", disciplinaSelecionada),
               where("turma", "==", turma.nome)
             );
+      
             const querySnapshotMateriais = await getDocs(qMateriais);
-    
+      
             querySnapshotMateriais.forEach((materialDoc) => {
               const materialData = materialDoc.data() as Material;
               materiaisData.push(materialData);
             });
+          } catch (error) {
+            console.error('Error fetching materials:', error);
           }
         }
     
@@ -99,8 +103,6 @@ export default function AlunoIndex() {
     
     
     
-
-    //Filtro da lista
     const aoClicarDisciplina = async (disciplina: string) => {
       if (user) {
         setDisciplinaSelecionada(disciplina);
@@ -231,6 +233,7 @@ export default function AlunoIndex() {
 
 
     return (
+      <ProtectedRoute>
         <LayoutUser divisoes usuario={"aluno"} className="text-black">
 
             <section className="bg-white rounded-md w-auto h-auto m-2 mb-0 p-3">
@@ -248,15 +251,16 @@ export default function AlunoIndex() {
             <section className="bg-white rounded-md w-auto h-4/5 m-2 mb-0">
                 <div className="ml-8 py-4">
                     <h3 className="font-Monteserrant font-semibold">Materiais</h3>
-                    {turmasDoAluno.map(turma => (
-                        <button
-                            key={turma.id || turma.disciplina} 
-                            onClick={() => aoClicarDisciplina(turma.disciplina)}
-                            className={`border-b-2 hover:border-blue-400 mr-4 ${turma.nome == azul ? 'border-blue-400' : ''}`}
-                        >
-                            {turma.disciplina}
-                        </button>
-                    ))}
+                    {turmasDoAluno.map((turma, index) => (
+                    <button
+                    key={`${turma.id}_${turma.disciplina}_${index}`}
+                    onClick={() => aoClicarDisciplina(turma.disciplina)}
+                    className={`border-b-2 hover:border-blue-400 mr-4 ${disciplinaSelecionada === turma.disciplina ? 'border-blue-400' : ''}`}
+                    >
+                    {turma.disciplina}
+                  </button>
+                ))}
+
                 </div>
               <Tabela
                 objeto={materiaisDisciplinaSelecionada}
@@ -285,5 +289,6 @@ export default function AlunoIndex() {
         />
       </Modal>
         </LayoutUser>
+        </ProtectedRoute>
     )
 }
