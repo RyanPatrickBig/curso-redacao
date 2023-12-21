@@ -108,44 +108,6 @@ export default function RootAlunos() {
     
         carregarTurmas();
       }, []); 
-
-
-    function verificarPrazos() {
-        const dataAtual = new Date();
-      
-        alunos.forEach((aluno) => {
-          const turmasAluno = aluno.turma.length; 
-      
-          const pagamentosAluno = pagamentos.filter(
-            (pagamento) => pagamento.idAluno === aluno.id
-          );
-      
-          const turmasPagas = pagamentosAluno.map((pagamento) => pagamento.idTurma);
-
-          const todasTurmasPagas = aluno.turma.every((turma) =>
-            turmasPagas.includes(turma)
-          );
-      
-          const prazosOrdenados = pagamentosAluno
-            .filter((pagamento) => turmasPagas.includes(pagamento.idTurma)) 
-            .sort((a, b) => a.prazo.getTime() - b.prazo.getTime()) 
-      
-          const prazosMaisFuturos = prazosOrdenados.slice(-turmasAluno); 
-      
-          const prazoAtualizado =
-            turmasAluno > 0 && todasTurmasPagas &&
-            prazosMaisFuturos.every((pagamento) => pagamento.prazo >= dataAtual);
-      
-          const indexAluno = listagem.findIndex((item) => item.id === aluno.id);
-          if (indexAluno !== -1) {
-            const listaAtualizada = [...listagem];
-            listaAtualizada[indexAluno].pagamento = prazoAtualizado;
-            setListagem(listaAtualizada);
-          }
-        });
-      }
-      
-      
       
     
     function alunoSelecionado(aluno: Aluno){

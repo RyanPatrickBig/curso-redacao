@@ -6,8 +6,7 @@ import Material from "@/core/Material";
 import Comentario from "@/core/Comentario";
 import Aluno from "@/core/Aluno";
 import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, getDocs, where, getDoc,addDoc, updateDoc, deleteDoc, doc, query } from "firebase/firestore";
+import { collection, getDocs, where, getDoc,addDoc, updateDoc, deleteDoc, doc, query } from "firebase/firestore";
 import { db } from '@/backend/config';
 import Turma from "@/core/Turma";
 import Link from 'next/link';
@@ -19,9 +18,8 @@ export default function AlunoIndex() {
 
     const [disciplinaSelecionada, setDisciplinaSelecionada] = useState<string | null>(null);
     const [materiais, setMateriais] = useState<Material[]>([]);
-    const dados = ['nome', 'descricao', 'data']
-    const cabecalho = ['Título', 'Descrição', 'Data de publicação', `Avaliar & Enviar redações`]
-    const [select, setSelect] = useState<{ value: string; label: string }[]>([]);
+    const dados = ['nome', 'descricao', 'professor']
+    const cabecalho = ['Título', 'Descrição', 'Professor', `Avaliar & Enviar redações`]
     const [comentarios, setComentarios] = useState<Comentario[]>([])
     const [material, setMaterial] = useState<Material>(Material.vazio())
     const [comentario, setComentario] = useState<Comentario>(Comentario.vazio())
@@ -31,8 +29,6 @@ export default function AlunoIndex() {
     const [turmasDoAluno, setTurmasDoAluno] = useState<Turma[]>([]);
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [materiaisDisciplinaSelecionada, setMateriaisDisciplinaSelecionada] = useState<Material[]>([]);
-    const [arquivo, setArquivo] = useState<string | null>(null);
-
     const user = getUserIntoLocalStorage();
 
     useEffect(() => {
@@ -48,7 +44,6 @@ export default function AlunoIndex() {
             const userData = userDoc.data();
             setNomeUsuario(userData.nome || "");
             const turmasDoEstudante = userData.turma || [];
-            setTurmasDoAluno(turmasDoEstudante);
     
             const turmasData: Turma[] = [];
     
@@ -61,6 +56,7 @@ export default function AlunoIndex() {
                 turmasData.push(turmaData);
               }
             }
+    
             setTurmasDoAluno(turmasData);
           }
         }
@@ -69,8 +65,10 @@ export default function AlunoIndex() {
       fetchData();
     }, [user]);
     
+    
     useEffect(() => {
       const fetchMateriais = async () => {
+        
         const materiaisData: Material[] = [];
     
         for (const turma of turmasDoAluno) {
@@ -99,64 +97,70 @@ export default function AlunoIndex() {
       if (disciplinaSelecionada && turmasDoAluno.length > 0) {
         fetchMateriais();
       }
+      
     }, [disciplinaSelecionada, turmasDoAluno]);
     
     
     
     const aoClicarDisciplina = async (disciplina: string) => {
       if (user) {
-        setDisciplinaSelecionada(disciplina);
-        setAzul(disciplina);
-
-        const materiaisData: Material[] = [];
         
-        for (const turma of turmasDoAluno) {
-          if (disciplina) {
-            console.log("Disciplina Selecionada:", disciplinaSelecionada);
-            const qMateriais = query(
-              collection(db, "Material"),
-              where("disciplina", "==", disciplina),
-              where("turma", "==", turma.nome)
-            );
-
-            try {
-          const querySnapshotMateriais = await getDocs(qMateriais);
-
-          querySnapshotMateriais.forEach((materialDoc) => {
-            const materialData = materialDoc.data() as Material;
-            materiaisData.push(materialData);
-          });
-        } catch (error) {
-          console.error('Erro ao buscar materiais:', error);
-        }
-          }
-        }
+        if (disciplina !== disciplinaSelecionada) {
+          setDisciplinaSelecionada(disciplina);
+          setAzul(disciplina);
     
-        setMateriaisDisciplinaSelecionada(materiaisData);
-        setAzul(disciplina);
+          const materiaisData: Material[] = [];
+    
+          for (const turma of turmasDoAluno) {
+            if (disciplina) {
+              console.log("Disciplina Selecionada:", disciplina);
+              const qMateriais = query(
+                collection(db, "Material"),
+                where("disciplina", "==", disciplina),
+                where("turma", "==", turma.nome)
+              );
+    
+              try {
+                const querySnapshotMateriais = await getDocs(qMateriais);
+    
+                querySnapshotMateriais.forEach((materialDoc) => {
+                  const materialData = materialDoc.data() as Material;
+                  materiaisData.push(materialData);
+                });
+              } catch (error) {
+                console.error('Erro ao buscar materiais:', error);
+              }
+            }
+          }
+    
+          setMateriaisDisciplinaSelecionada(materiaisData);
+          setAzul(disciplina);
+        }
       }
     };
-    
-      
+ 
 
-    //Lista
     function materialSelecionado(material: Material) {
+      setMaterial(material);
+    
       if (aluno) {
-        setMaterial(material);
-       
-        const comentarioCorrespondente = comentarios.find(
+        const comentariosFiltrados = comentarios.filter(
           (comentario) =>
             comentario.idMaterial === material.id && comentario.idUsuario === aluno.id
         );
-  
-        setComentario(comentarioCorrespondente || Comentario.vazio());
     
-
+        if (comentariosFiltrados.length > 0) {
+          setComentario(comentariosFiltrados[0]);
+        } else {
+          setComentario(Comentario.vazio());
+        }
+    
         setOpenModal(true);
+      } else {
+        console.error("Aluno não definido.");
       }
-    }
+    }    
 
-    //Comentário
     async function salvarComentario(comentarioNovo: Comentario) {
       if (!comentarioNovo.texto || !comentarioNovo.estrelas) {
         alert("Preencha todos os campos obrigatórios.");
@@ -189,7 +193,12 @@ export default function AlunoIndex() {
       if (indexToEdit !== -1) {
         try {
           const comentarioDocRef = doc(db, 'comentario', comentarioEditado.id);
-
+         
+          await updateDoc(comentarioDocRef, {
+            texto: comentarioEditado.texto,
+            estrelas: comentarioEditado.estrelas,
+          });
+          
           console.log('Comentário atualizado com sucesso.');
         } catch (error) {
           console.error('Erro ao atualizar o comentário:', error);

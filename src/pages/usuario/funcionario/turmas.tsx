@@ -65,10 +65,12 @@ export default function FuncionarioTurmas() {
     }
   };
 
-
   useEffect(() => {
-    aoClicar();
-  }, [filtro]);
+    if(filtro){
+        aoClicar();
+    }
+}, [filtro]);
+
 
   return (
     <LayoutUser usuario={"funcionario"} className="text-black">

@@ -14,7 +14,6 @@ const app = initializeApp({
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 });
 
-const db = getFirestore(app);
 
 type ProtectedRouteProps = {
   children: ReactElement;

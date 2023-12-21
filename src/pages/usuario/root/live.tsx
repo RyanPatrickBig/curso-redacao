@@ -13,7 +13,6 @@ import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase
 
 export default function RootLive() {
 
-//CONFERIR
     const [modoEdicao, setModoEdicao] = useState(false);
     const [lives, setLives] = useState<Live[]>([]);
     const [listaTurmas, setListaTurmas] = useState<Turma[]>([]);

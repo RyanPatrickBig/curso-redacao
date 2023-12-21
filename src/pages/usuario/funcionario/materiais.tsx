@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, getDocs} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
 import {db, storage} from "@/backend/config"
 
 export default function Materiais() {
@@ -26,6 +27,7 @@ export default function Materiais() {
     const [data, setData] = useState(new Date(0));
     const [turmas, setTurmas] = useState<string[]>([]);
     const turmasUnicas = listaTurmas.map((turma) => turma.nome);
+    const user = getUserIntoLocalStorage();
 
     useEffect(() => {
       const fetchTurmas = async () => {
@@ -42,9 +44,6 @@ export default function Materiais() {
     }, []);
 
     async function enviarArquivo() {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
       if(!user){
       if (!arquivo) return null;
     

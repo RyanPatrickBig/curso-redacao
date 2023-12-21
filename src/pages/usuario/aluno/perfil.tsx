@@ -9,6 +9,7 @@ import ImageUploader from "@/components/ImageUploader";
 import PerfilDados from "@/components/EntradaPerfil";
 import { differenceInDays, addMonths } from 'date-fns';
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
+import {db, storage} from "@/backend/config"
 
 interface UserProfile {
   modalidade: string;
@@ -29,22 +30,18 @@ export default function AlunoPage() {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [diasRestantes, setDiasRestantes] = useState<number>(0);
   const [porcentagemPercorrida, setPorcentagemPercorrida] = useState<number>(0);
-  const [editedProfile, setEditedProfile] = useState<UserProfile | null>(null);
   const [nomeEditavel, setNomeEditavel] = useState(userProfile?.nome ?? '');
   const [rgEditavel, setRgEditavel] = useState(userProfile?.rg ?? '');
   const [cpfEditavel, setCpfEditavel] = useState(userProfile?.cpf ?? '');
   const [celularEditavel, setCelularEditavel] = useState(userProfile?.celular ?? '');
   const [enderecoEditavel, setEnderecoEditavel] = useState(userProfile?.endereco ?? '');
+  const user = getUserIntoLocalStorage()
 
   useEffect(() => {
-    const auth = getAuth();
-    // Obtemos informações do usuário salvas no Localstorage
-    const user = getUserIntoLocalStorage()
-    console.log(user?.uid)
 
     if (user) {
-      const firestore = getFirestore();
-      const alunosRef = collection(firestore, "Estudante");
+
+      const alunosRef = collection(db, "Estudante");
       const q = query(alunosRef, where("email", "==", user.email));
 
       getDocs(q)
@@ -62,7 +59,7 @@ export default function AlunoPage() {
             if (turmaIds && turmaIds.length > 0) {
               const turmaId = turmaIds[0];
 
-              const turmaDocRef = doc(firestore, "Turmas", turmaId);
+              const turmaDocRef = doc(db, "Turmas", turmaId);
               console.log("turmaDocRef:", turmaDocRef.path);
 
               const turmaSnapshot = await getDoc(turmaDocRef);
@@ -91,11 +88,9 @@ export default function AlunoPage() {
   }, []);
 
   const handleImageUpload = async (base64Image: string) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
+    
     if (user) {
-      const storage = getStorage();
+      
       const storageRef = ref(storage, `user-images/${user.uid}/profile-image.png`);
 
       try {
@@ -103,8 +98,7 @@ export default function AlunoPage() {
 
         const imageUrl = await getDownloadURL(storageRef);
 
-        const firestore = getFirestore();
-        const userDocRef = doc(firestore, "Estudante", user.uid);
+        const userDocRef = doc(db, "Estudante", user.uid);
 
         await setDoc(userDocRef, { fotoPerfil: imageUrl }, { merge: true });
 
@@ -142,13 +136,10 @@ export default function AlunoPage() {
 
   const handleSave = async () => {
     try {
-      const auth = getAuth();
-      const user = auth.currentUser;
 
       if (user) {
-        const firestore = getFirestore();
-        const userDocRef = doc(firestore, "Estudante", user.uid);
 
+        const userDocRef = doc(db, "Estudante", user.uid);
 
         const editedFields = {
           nome: nomeEditavel,
@@ -168,14 +159,6 @@ export default function AlunoPage() {
     }
   };
 
-  async function editarAluno() {
-    if (editar == true) {
-      //informações aqui dentro
-    }
-    setEditar(!editar);
-
-  }
-
   return (
     <ProtectedRoute>
       <LayoutUser usuario={'aluno'} className="flex flex-col gap-2" divisoes>
@@ -186,7 +169,7 @@ export default function AlunoPage() {
               <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
             </figure>
             <h2 className="mt-10 ml-5 ">{userProfile?.nome}</h2>
-            <Botao onClick={editarAluno} className="m-10 p-10 bg-blue-400" cor="blue">
+            <Botao onClick={handleSave} className="m-10 p-10 bg-blue-400" cor="blue">
               {editar ? 'Alterar' : 'Salvar'}
             </Botao>
           </div>

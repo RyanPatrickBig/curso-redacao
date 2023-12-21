@@ -4,9 +4,12 @@ import Image from "next/image"
 import Funcionario from "@/core/Funcionario";
 import { useState, useEffect } from "react";
 import EntradaPerfil from "@/components/EntradaPerfil";
-import ImageTeste from "@/components/ImageUploader";
+import ImageUploader from "@/components/ImageUploader";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
+import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
+import {db, storage} from "@/backend/config"
 
 interface UserProfile {
     nome: string;
@@ -16,20 +19,27 @@ interface UserProfile {
     rg: string;
     senha: string;
     id: string;
+    profileImageUrl: string;
 }
 
 export default function PerfilFuncionario() {
 
     const [editar, setEditar] = useState(true)
+    const [base64Image, setBase64Image] = useState<string | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [nome, setNome] = useState(userProfile?.nome ?? '')
+    const [celular, setCelular] = useState(userProfile?.celular ?? '')
+    const [cpf, setCpf] = useState(userProfile?.cpf ?? '')
+    const [email, setEmail] = useState(userProfile?.email ?? '')
+    const [rg, setRg] = useState(userProfile?.rg ?? '')
+    const [id, setId] = useState(userProfile?.id ?? '')
+    const [senha, setSenha] = useState(userProfile?.senha ?? '')
+    const user = getUserIntoLocalStorage();
 
     useEffect(() => {
-        const auth = getAuth();
-        const user = auth.currentUser as any;
-    
+
         if (user) {
-          const firestore = getFirestore();
-          const alunosRef = collection(firestore, "Funcionario");
+          const alunosRef = collection(db, "Funcionario");
           const q = query(alunosRef, where("cpf", "==", user.cpf));
     
           getDocs(q)
@@ -37,6 +47,10 @@ export default function PerfilFuncionario() {
               if (!querySnapshot.empty) {
                 const alunoData = querySnapshot.docs[0].data() as UserProfile;
                 setUserProfile(alunoData);
+
+                if (alunoData.profileImageUrl) {
+                    setBase64Image(alunoData.profileImageUrl);
+                  }
               }
             })
             .catch((error) => {
@@ -45,13 +59,27 @@ export default function PerfilFuncionario() {
         }
       }, []);
 
-        const [nome, setNome] = useState(userProfile?.nome ?? '')
-        const [celular, setCelular] = useState(userProfile?.celular ?? '')
-        const [cpf, setCpf] = useState(userProfile?.cpf ?? '')
-        const [email, setEmail] = useState(userProfile?.email ?? '')
-        const [rg, setRg] = useState(userProfile?.rg ?? '')
-        const [id, setId] = useState(userProfile?.id ?? '')
-        const [senha, setSenha] = useState(userProfile?.senha ?? '')
+      const handleImageUpload = async (base64Image: string) => {
+    
+        if (user) {
+          const storageRef = ref(storage, `user-images/${user.uid}/profile-image.png`);
+    
+          try {
+            await uploadString(storageRef, base64Image, "data_url");
+    
+            const imageUrl = await getDownloadURL(storageRef);
+    
+            const userDocRef = doc(db, "Funcionario", user.uid);
+    
+            await setDoc(userDocRef, { fotoPerfil: imageUrl }, { merge: true });
+    
+            setBase64Image(imageUrl);
+            console.log("Foto de perfil atualizada com sucesso.");
+          } catch (error) {
+            console.error("Erro ao atualizar a foto de perfil:", error);
+          }
+        }
+      };
 
         function salvarFuncionario(funcionario: Funcionario){
             setEditar(!editar)
@@ -63,11 +91,9 @@ export default function PerfilFuncionario() {
             <section className="bg-white rounded-md w-auto h-1/2 m-2 mb-0">
                 <div className="bg-gradient-to-r from-pink-500 to-pink-700 h-1/2 rounded-md"></div>
                 <div className="flex flex-row">
-                    <figure className="-mt-20 ml-12 mr-2">
-                        <ImageTeste readOnly={editar} className="p-24" base64Image={null} onImageUpload={function (base64Image: string): void {
-                            throw new Error("Function not implemented.");
-                        } }/>
-                    </figure>
+                <figure className="-mt-16 ml-12 mr-2">
+                <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
+                </figure>
                     <h2 className="mt-10 ml-5 ">{nome}</h2>
                     <Botao onClick={() => salvarFuncionario(
                         new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} 
@@ -90,7 +116,13 @@ export default function PerfilFuncionario() {
                                 flex flex-col items-center">
                     <Image src='/images/logoLOGIN.png' width='250' height='250' alt='imagemDoCurso'/>
                 </figure>
-
+                <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{nome}</h2>
+                    <div className="flex place-content-between justify-between content-between w-full">
+                        <Botao onClick={() => salvarFuncionario(
+                            new Funcionario(nome, cpf, rg, celular, email, senha, userProfile?.id, false))} 
+                        className="m-10 mx-0 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                        <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
+                    </div>
             </div>
         </LayoutUser>
     )

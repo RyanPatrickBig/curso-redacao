@@ -13,8 +13,6 @@ import { format } from "date-fns";
 
 export default function FuncionarioLive() {
 
-//CONFERIR
-
 const [lives, setLives] = useState<Live[]>([]);
 const [listaTurmas, setListaTurmas] = useState<Turma[]>([]);
 const [nome, setNome] = useState('')
