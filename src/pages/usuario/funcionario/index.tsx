@@ -94,7 +94,7 @@ export default function PerfilFuncionario() {
                 <figure className="-mt-16 ml-12 mr-2">
                 <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
                 </figure>
-                <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{nome}</h2>
+                <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
                 <div className="flex place-content-between justify-between content-between w-full">
                     <Botao onClick={() => salvarFuncionario(
                         new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} 
