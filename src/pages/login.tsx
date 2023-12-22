@@ -41,6 +41,17 @@ export default function Login() {
                 return;
             }
 
+            const rootRef = collection(db, "Root");
+            const rootQuery = query(rootRef, where("email", "==", email));
+            const rootSnapshot = await getDocs(rootQuery)
+
+            if(!rootSnapshot.empty){
+                const rootData = rootSnapshot.docs[0].data();
+                saveUserIntoLocalStorage(rootData)
+                router.push("/usuario/root");
+                return;
+            }
+
             console.error("Nenhum usuário encontrado com este email.");
         } catch (error) {
             console.error("Erro ao fazer login:", error);

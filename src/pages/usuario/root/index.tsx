@@ -16,10 +16,9 @@ import { db } from '@/backend/config';
 
 export default function RootAlunos() {
 
-  const [alunos, setAlunos] = useState<Aluno[]>([]);
-  const [listaTurmas, setListaTurmas] = useState<Turma[]>([]);
-  const [pagamentos, setPagamentos] = useState<Pagamento[]>([]);
-    
+    const [alunos, setAlunos] = useState<Aluno[]>([]);
+    const [listaTurmas, setListaTurmas] = useState<Turma[]>([]);
+    const [pagamentos, setPagamentos] = useState<Pagamento[]>([]);
     const dados = ['natural','nome','cpf','pagamento']
     const cabecalho = ['Estado', 'Nome', 'CPF', 'Pagamento', 'Ações']
     const [select1, setSelect1] = useState<string[]>([])
@@ -81,12 +80,12 @@ export default function RootAlunos() {
       setFiltragem2(filtragemResultante);
       setRecarregar(false);
       setOpenModal(false);
-    };
-    
-      
+    };      
     
       useEffect(() => {
-        aoClicar();
+        if(filtro1 || filtro2|| listaTurmas|| pesquisa){
+          aoClicar();
+        }
       }, [filtro1,filtro2, listaTurmas, pesquisa]);
       
       
@@ -98,7 +97,7 @@ export default function RootAlunos() {
             const snapshot = await getDocs(turmasQuery);
             const turmas = snapshot.docs.map((doc) => doc.data() as Turma);
             setListaTurmas(turmas);
-    
+            console.log(turmas[0])
             const seletorAtualizado = ['Todos(as)', ...turmas.map((turma) => turma.nome)];
             setSelect1(seletorAtualizado);
           } catch (error) {
@@ -108,14 +107,14 @@ export default function RootAlunos() {
     
         carregarTurmas();
       }, []); 
-      
-    
+        
     function alunoSelecionado(aluno: Aluno){
         setAluno(aluno)
         setTipoModal("editar")
         setOpenModal(true)
     }
     function alunoExcluido(aluno: Aluno){
+        console.log(aluno.id)
         setAluno(aluno)
         setTipoModal('excluir');
         setOpenModal(true)
@@ -194,8 +193,6 @@ export default function RootAlunos() {
     setRecarregar(true);
   }
 
-      
-
     return (
         <LayoutUser usuario={'root'} className="text-black">
             <div className="flex place-content-between">
@@ -218,8 +215,7 @@ export default function RootAlunos() {
                     abrirPagamento={abrirPagamento}
                     pagamentos={pagamentos}
                     />
-            <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Pagamento' : tipoModal == 'excluir' ? 'Tem certeza que deseja excluir:': "Editar Aluno"}
-            subtitulo={tipoModal == 'excluir' || 'selecionado' ? aluno.nome+' - Mensalidade: dia '+aluno.mensalidade : ''}>
+            <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Pagamento' : tipoModal == 'excluir' ? 'Tem certeza que deseja excluir:': "Editar Aluno"}>
             {tipoModal == 'selecionado' ? <ModalRootPagamento setRecarregar={setRecarregar} aluno={aluno} listaTurmas={listaTurmas} pagamentos={pagamentos} setPagamentos={setPagamentos}/>: tipoModal == 'excluir' ? <ModalExcluir objeto={aluno} exclusao={exclusao} />: 
             <ModalRootALunos listaTurmas={listaTurmas} aluno={aluno} novoAluno={alunoSelecionado} editar={edicao}/>}</Modal>
         </LayoutUser>

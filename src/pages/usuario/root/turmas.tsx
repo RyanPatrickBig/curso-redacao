@@ -36,6 +36,7 @@ export default function RootTurmas() {
             const turmasQuery = query(turmasRef);
             const snapshot = await getDocs(turmasQuery);
             const turmas = snapshot.docs.map((doc) => doc.data() as Turma);
+            console.log(turmas[0])
             setListaTurmas(turmas);
     
             const seletorAtualizado = ['Todos(as)', ...turmas.map((turma) => turma.nome)];
@@ -80,28 +81,6 @@ export default function RootTurmas() {
           aoClicar();
         }
       }, [filtro, listaTurmas, recarregar]);
-    
-
-    async function adicao(turmaNova: Turma){
-        try{
-            const turmaData = {
-                nome: turmaNova.nome,
-                disciplina: turmaNova.disciplina,
-                dia: turmaNova.dia,
-                professor: turmaNova.professor,
-                horario: turmaNova.horario,
-                modalidade: turmaNova.modalidade,
-            };
-
-            const docref = await addDoc(collection(db, "Turmas"), turmaData);
-            console.log("Turma adicionada com o ID:", docref.id);
-            
-            setOpenModal(false);
-            setRecarregar(true);
-        } catch (error){
-            console.error("Erro ao adicionar a Turma ao Firestore", error);
-        }
-    }
 
     
     function alunoSelecionado(aluno: Aluno){

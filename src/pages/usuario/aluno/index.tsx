@@ -24,7 +24,6 @@ export default function AlunoIndex() {
     const [material, setMaterial] = useState<Material>(Material.vazio())
     const [comentario, setComentario] = useState<Comentario>(Comentario.vazio())
     const [openModal, setOpenModal] = useState(false)
-    const [aluno, setAluno] = useState<Aluno | null>(null);
     const [azul, setAzul] = useState("");
     const [turmasDoAluno, setTurmasDoAluno] = useState<Turma[]>([]);
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
@@ -143,10 +142,10 @@ export default function AlunoIndex() {
     function materialSelecionado(material: Material) {
       setMaterial(material);
     
-      if (aluno) {
+      if (user) {
         const comentariosFiltrados = comentarios.filter(
           (comentario) =>
-            comentario.idMaterial === material.id && comentario.idUsuario === aluno.id
+            comentario.idMaterial === material.id && comentario.idUsuario === user.id
         );
     
         if (comentariosFiltrados.length > 0) {
@@ -216,7 +215,6 @@ export default function AlunoIndex() {
       setOpenModal(false);
     }
     
-
     async function excluirComentario() {
       if (!comentario.id) {
         console.error("ID do comentário não definido.");
@@ -291,7 +289,7 @@ export default function AlunoIndex() {
         <ModalAlunoMaterial
           material={material}
           comentario={comentario}
-          aluno={aluno}
+          aluno={user}
           salvarComentario={salvarComentario}
           editarComentario={editarComentario}
           excluirComentario={excluirComentario}

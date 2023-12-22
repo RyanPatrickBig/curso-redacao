@@ -6,7 +6,8 @@ import Funcionario from "@/core/Funcionario";
 import Modal from "@/components/Modal";
 import ModalRootFuncionario from '@/components/modals/ModalRootFuncionario'
 import ModalExcluir from "@/components/modals/ModalExcluir";
-import { getDocs, collection, addDoc, updateDoc, doc, getDoc, deleteDoc, DocumentData } from 'firebase/firestore';
+import { getDocs, collection, addDoc, updateDoc, doc, getDoc, deleteDoc, DocumentData, query } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; 
 import { db } from '@/backend/config';
 import {Botao} from "@/components/Botao";
 
@@ -14,19 +15,20 @@ export default function RootFuncionarios() {
 
     const dados = ['nome','cpf', 'email']
     const cabecalho = ['Nome', 'CPF', 'Email', "Ações"]
-
     const [openModal, setOpenModal] = useState(false)
     const [funcionario, setFuncionario] = useState<Funcionario>(Funcionario.vazio())
     const [tipoModal, setTipoModal] = useState('')
     const [listagem, setListagem] = useState<Funcionario[]>([]);
-    const [recarregar, setRecarregar] = useState(false)
+    const [recarregar, setRecarregar] = useState(true)
+    const auth = getAuth();
 
     useEffect(() => {
         if(recarregar){
             async function fetchFuncionarios() {
                 const funcionariosCollection = collection(db, 'Funcionario');
-                const funcionariosSnapshot = await getDocs(funcionariosCollection);
-                const funcionariosData = funcionariosSnapshot.docs.map(doc => doc.data() as Funcionario);
+                const funcionarioQuery = query(funcionariosCollection);
+                const funcionariosSnapshot = await getDocs(funcionarioQuery);
+                const funcionariosData = funcionariosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Funcionario[];
                 setListagem(funcionariosData);
             }
     
@@ -36,38 +38,35 @@ export default function RootFuncionarios() {
     }, [recarregar]);
 
     
-    function funcionarioExcluido(funcionario: Funcionario) {
-        if (funcionario && funcionario.id) {
-            setFuncionario(funcionario);
-            setTipoModal('excluir');
-            setOpenModal(true);
-        } else {
-            console.error("Funcionário ou ID não definido.");
-        }
+    function funcionarioExcluido(funcionario: Funcionario) {  
+        setFuncionario(funcionario);
+        setTipoModal('excluir');
+        setOpenModal(true);
     }   
-    function salvarFuncionario(){
+
+    function salvarFuncionario(funcionario: Funcionario){
         setFuncionario(funcionario)
         setTipoModal('selecionado')
         setOpenModal(true)
     }
     function editarFuncionario(funcionario: Funcionario) {
         setFuncionario(funcionario);
-        setTipoModal('selecionado'); 
+        setTipoModal('editar'); 
         setOpenModal(true);
     } 
-
     
     const excluirFuncionarioFirestore = async (funcionarioId: string) => {
         try {
           const funcionarioRef = doc(db, 'Funcionario', funcionarioId);
           await deleteDoc(funcionarioRef);
           console.log('Funcionário excluído com sucesso do Firestore');
+          setRecarregar(true)
         } catch (error) {
           console.error('Erro ao excluir funcionário do Firestore:', error);
         }
       };
       
-      const exclusaoFuncionario = async (id: string) => {
+      const exclusaoFuncionario = async (id: any) => {
         try {
           await excluirFuncionarioFirestore(id);
       
@@ -80,42 +79,8 @@ export default function RootFuncionarios() {
           console.error('Erro ao excluir funcionário:', error);
         }
       };
-      
-    async function edicao(funcionarioEditado: Funcionario) {
-        try {
 
-            if (!funcionarioEditado.id) {
-                console.error("ID do funcionário não definido.");
-                setOpenModal(false);
-                return;
-            } 
-
-            const funcionarioRef = doc(db, 'Funcionario', funcionarioEditado.id);
-            
-            await updateDoc(funcionarioRef, {
-                nome: funcionarioEditado.nome,
-                cpf: funcionarioEditado.cpf,
-                rg: funcionarioEditado.rg,
-                celular: funcionarioEditado.celular,
-                email: funcionarioEditado.email,
-                senha: funcionarioEditado.senha,
-            });
-    
-            const indexToEdit = listagem.findIndex((funcionario) => funcionario.id === funcionarioEditado.id);
-            if (indexToEdit !== -1) {
-                const listaAtualizada = [...listagem];
-                listaAtualizada[indexToEdit] = funcionarioEditado;
-                setListagem(listaAtualizada);
-                setOpenModal(false);
-            }
-            setRecarregar(true)
-        } catch (error) {
-            console.error("Erro ao editar o funcionário no Firestore", error);
-            setOpenModal(false);
-        }
-    }
-    
-    async function adicao(funcionarioNovo: Funcionario) {
+      async function adicao(funcionarioNovo: Funcionario) {
         if (verificaObjetoInvalido(funcionarioNovo)) {
             try {
                 const funcionarioData = {
@@ -127,6 +92,9 @@ export default function RootFuncionarios() {
                     senha: funcionarioNovo.senha,
                 };
     
+                const userCredential = await createUserWithEmailAndPassword(auth, funcionarioNovo.email, funcionarioNovo.senha);
+                const user = userCredential.user;
+
                 const docRef = await addDoc(collection(db, "Funcionario"), funcionarioData);
                 console.log("Funcionário adicionado com ID:", docRef.id);
     
@@ -143,6 +111,50 @@ export default function RootFuncionarios() {
             alert("Objeto Inválido");
         }
     }
+      
+    function edicao(funcionarioEditado: Funcionario) {
+        const funcionarioId = funcionarioEditado.id;
+
+	        if (!funcionarioId) {
+                console.error("ID do funcionário não definido.");
+                setOpenModal(false);
+                return;
+            } 
+      
+        const atualizarFuncionarioFirestore = async () => {
+          try {
+            const funcionarioDocRef = doc(db, 'Funcionario', funcionarioId);
+             await updateDoc(funcionarioDocRef, {
+                nome: funcionarioEditado.nome,
+                cpf: funcionarioEditado.cpf,
+                rg: funcionarioEditado.rg,
+                celular: funcionarioEditado.celular,
+                email: funcionarioEditado.email,
+                senha: funcionarioEditado.senha,
+            });
+    
+      
+            console.log('Funcionario atualizado no Firestore');
+          } catch (error) {
+            console.error('Erro ao atualizar funcionario no Firestore', error);
+          }
+        };
+      
+        atualizarFuncionarioFirestore();
+
+         const indexToEdit = listagem.findIndex((funcionario) => funcionario.id === funcionarioEditado.id);
+            if (indexToEdit !== -1) {
+                const listaAtualizada = [...listagem];
+                listaAtualizada[indexToEdit] = funcionarioEditado;
+                setListagem(listaAtualizada);
+                setOpenModal(false);
+            }
+        else {
+          setOpenModal(false);
+        }
+        setRecarregar(true);
+      }
+    
     function verificaObjetoInvalido(funcionarioNovo: Funcionario) {
         if (
             !funcionarioNovo.nome ||
@@ -156,7 +168,6 @@ export default function RootFuncionarios() {
         }
         return true;
     }
-
 
     return (
         <LayoutUser usuario={'root'} className="text-black">
@@ -173,10 +184,10 @@ export default function RootFuncionarios() {
             funcionario
             />
 
-            <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Criar novo funcionário': 'Tem certeza que deseja excluir:'}
+            <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Criar novo funcionário': tipoModal=='editar' ? 'Editar Funcionario' : 'Tem certeza que deseja excluir:'}
             subtitulo={tipoModal == 'excluir' && funcionario ? funcionario.nome : ''}
-            > {tipoModal == 'selecionado' ?
-            <ModalRootFuncionario funcionario={funcionario} setOpenModal={setOpenModal} editar={edicao} adicao={adicao}/>:<ModalExcluir objeto={funcionario} exclusao={() => exclusaoFuncionario(funcionario?.id || '')} />
+            > {tipoModal == 'selecionado' || tipoModal=='editar' ? 
+            <ModalRootFuncionario funcionario={funcionario} setOpenModal={setOpenModal} editar={(funcionario) => edicao(funcionario)} adicao={adicao}/>:<ModalExcluir objeto={funcionario} exclusao={exclusaoFuncionario} />
         } </Modal>
 
         </LayoutUser>

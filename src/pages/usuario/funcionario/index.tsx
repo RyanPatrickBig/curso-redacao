@@ -94,10 +94,13 @@ export default function PerfilFuncionario() {
                 <figure className="-mt-16 ml-12 mr-2">
                 <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
                 </figure>
-                    <h2 className="mt-10 ml-5 ">{nome}</h2>
+                <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{nome}</h2>
+                <div className="flex place-content-between justify-between content-between w-full">
                     <Botao onClick={() => salvarFuncionario(
                         new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} 
                     className="m-10 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                        <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
+                    </div>
                 </div>
             </section>
 
@@ -116,13 +119,7 @@ export default function PerfilFuncionario() {
                                 flex flex-col items-center">
                     <Image src='/images/logoLOGIN.png' width='250' height='250' alt='imagemDoCurso'/>
                 </figure>
-                <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{nome}</h2>
-                    <div className="flex place-content-between justify-between content-between w-full">
-                        <Botao onClick={() => salvarFuncionario(
-                            new Funcionario(nome, cpf, rg, celular, email, senha, userProfile?.id, false))} 
-                        className="m-10 mx-0 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
-                        <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
-                    </div>
+               
             </div>
         </LayoutUser>
     )
