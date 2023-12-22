@@ -30,10 +30,13 @@ export default function PerfilFuncionario() {
                             throw new Error("Function not implemented.");
                         } }/>
                     </figure>
-                    <h2 className="mt-10 ml-5 ">{nome}</h2>
-                    <Botao onClick={() => salvarFuncionario(
-                        new Funcionario(nome, cpf, funcionarioTeste.rg, celular, email, funcionarioTeste.senha, funcionarioTeste.id, false))} 
-                    className="m-10 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                    <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{nome}</h2>
+                    <div className="flex place-content-between justify-between content-between w-full">
+                        <Botao onClick={() => salvarFuncionario(
+                            new Funcionario(nome, cpf, funcionarioTeste.rg, celular, email, funcionarioTeste.senha, funcionarioTeste.id, false))} 
+                        className="m-10 mx-0 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                        <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
+                    </div>
                 </div>
             </section>
 

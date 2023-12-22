@@ -115,9 +115,6 @@ export default function RootAlunos() {
           }
         });
       }
-      
-      
-      
     
     function alunoSelecionado(aluno: Aluno){
         setAluno(aluno)

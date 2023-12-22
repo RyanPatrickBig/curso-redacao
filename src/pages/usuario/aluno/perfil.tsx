@@ -112,11 +112,14 @@ export default function AlunoPage() {
             <div className="bg-white rounded-md w-auto h-1/2 m-2 mb-0">
                 <div className="bg-gradient-to-r from-blue-400 to-pink-600 h-1/2 rounded-md"></div>
                 <div className="flex flex-row">
-                <figure className="-mt-16 ml-12 mr-2">
-                <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)}/>
-                </figure>
+                    <figure className="-mt-16 ml-12 mr-2">
+                      <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)}/>
+                    </figure>
                     <h2 className="mt-10 ml-5 ">{userProfile?.nome}</h2>
-                    <Botao onClick={() => setEditar(!editar)} className="m-10 p-10 bg-blue-400" cor="blue">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                    <div className="flex place-content-between">
+                      <Botao onClick={() => setEditar(!editar)} className="m-10 p-10 bg-blue-400" cor="blue">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                      <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
+                    </div>
                 </div>
             </div>
             <div className="h-1/2 flex flex-row">
