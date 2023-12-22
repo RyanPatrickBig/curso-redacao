@@ -77,7 +77,7 @@ export default function AlunoIndex() {
               where("disciplina", "==", disciplinaSelecionada),
               where("turma", "==", turma.nome)
             );
-      
+            
             const querySnapshotMateriais = await getDocs(qMateriais);
       
             querySnapshotMateriais.forEach((materialDoc) => {
@@ -165,19 +165,26 @@ export default function AlunoIndex() {
         alert("Preencha todos os campos obrigatórios.");
         return;
       }
+
+      const comentarioData = {
+        texto: comentarioNovo.texto,
+        idUsuario: comentarioNovo.idUsuario,
+        idMaterial: comentarioNovo.idMaterial,
+        estrelas: comentarioNovo.estrelas,
+      };
     
       try {
-        const comentarioRef = await addDoc(collection(db, 'comentario'), comentarioNovo);
-        console.log('Comentário salvo com sucesso. ID:', comentarioRef.id);
-      } catch (error) {
-        console.error('Erro ao salvar o comentário:', error);
-        alert('Erro ao salvar o comentário. Por favor, tente novamente.');
-      }
-    
-      setComentarios([...comentarios, comentarioNovo]);
-    
-      setOpenModal(false);
+      const comentarioRef = await addDoc(collection(db, 'comentario'), comentarioData);
+      console.log('Comentário salvo com sucesso. ID:', comentarioRef.id);
+    } catch (error) {
+      console.error('Erro ao salvar o comentário:', error);
+      alert('Erro ao salvar o comentário. Por favor, tente novamente.');
     }
+
+    setComentarios([...comentarios, comentarioNovo]);
+
+    setOpenModal(false);
+  } 
     
 
     async function editarComentario(comentarioEditado: Comentario) {

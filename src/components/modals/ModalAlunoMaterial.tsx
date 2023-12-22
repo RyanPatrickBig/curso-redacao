@@ -14,7 +14,6 @@ interface ModalAlunoMaterial {
     editarComentario: (comentarioEditado: Comentario) => void;
     excluirComentario: (comentarioExcluido: Comentario) => void
 }
-//CONFERIR
 
 export default function ModalAlunoMaterial(props: ModalAlunoMaterial){
     const idMaterial = (props.material.id ?? '')
@@ -25,6 +24,15 @@ export default function ModalAlunoMaterial(props: ModalAlunoMaterial){
 
     const handleTextoChange = (e: any) => {
         setTexto(e.target.value);
+      };
+
+      const handleEnviarComentario = () => {
+        if (estrelas === 0) {
+          alert("Avaliação deve ser maior que 0");
+        } else {
+          const novoComentario = new Comentario(idMaterial, texto, estrelas, idUsuario, id, false);
+          props.salvarComentario?.(novoComentario);
+        }
       };
 
     return(
@@ -47,17 +55,9 @@ export default function ModalAlunoMaterial(props: ModalAlunoMaterial){
                     <h3>Avaliação</h3>
                     <Estrelas estrelas={estrelas} setEstrelas={setEstrelas}/>
                 </div>
-                <Botao className="p-10"
-                        onClick={() => {
-                            if (estrelas === 0) {
-                              alert("Avaliação deve ser maior que 0");
-                            } else {
-                              props.salvarComentario?.(
-                                new Comentario(idMaterial, texto, estrelas, idUsuario, id, false)
-                              );
-                            }
-                          }}>
-                    Enviar</Botao>
+                <Botao className="p-10" onClick={handleEnviarComentario}>
+          Enviar
+        </Botao>
             </section>
         </div>
     )

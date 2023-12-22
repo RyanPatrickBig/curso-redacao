@@ -67,11 +67,11 @@ export default function RootAlunos() {
         );
     
         if (filtro2 !== "Todos(as)") {
-          if (filtro2 === "dia 10" || filtro2 === "dia 15") {
-            filtragemResultante = filtragemResultante.filter((aluno) => aluno.mensalidade === parseInt(filtro2) || aluno.mensalidade === parseFloat(filtro2));
-          } else {
-            console.error("Invalid value for mensalidade");
-            filtragemResultante = [];
+          if(filtro2 === "dia 10"){
+            filtragemResultante = filtragemResultante.filter((aluno) => aluno.mensalidade === 10);
+          }
+          else if(filtro2 === "dia 15"){
+            filtragemResultante = filtragemResultante.filter((aluno) => aluno.mensalidade === 15);
           }
         }
       }
@@ -83,10 +83,10 @@ export default function RootAlunos() {
     };      
     
       useEffect(() => {
-        if(filtro1 || filtro2|| listaTurmas|| pesquisa){
+        if(filtro1 || filtro2 || listaTurmas|| pesquisa){
           aoClicar();
         }
-      }, [filtro1,filtro2, listaTurmas, pesquisa]);
+      }, [filtro1, filtro2, listaTurmas, pesquisa]);
       
       
       useEffect(() => {

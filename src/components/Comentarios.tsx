@@ -17,7 +17,7 @@ import Comentario from "@/core/Comentario"
                         {props.comentarios.map((comentario, index) => (
                             <div key={index} className="border rounded-md p-3 my-3 pb-4">
                             <div className="flex gap-3 items-center">
-                                <img src="/images/IMG_3817.jpg" className="object-cover w-8 h-8 rounded-full"/>
+                                <div className=" bg-slate-400 object-cover w-8 h-8 rounded-full"/>
                                 <h3 className="font-bold">
                                     {props.alunos.find(aluno => aluno.id === comentario.idUsuario)?.nome || "Aluno não encontrado"}
                                 </h3>
