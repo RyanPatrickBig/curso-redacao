@@ -156,10 +156,12 @@ export default function LayoutUser(props: LayoutUserProps) {
 
             <section className='flex flex-col gap-10'>
               <figure className="flex items-center justify-center gap-3 relative my-0 mt-3 p-5">
-                <figure className='flex justify-center items-center rounded-full p-0 ml-0 mr-0 bg-slate-900'>
-                  <Image src="/images/logoLOGIN.png" width={40} height={40} alt="imagemDoCurso" />
-                </figure>
-                <h2>Curso FA.</h2>
+                <Link href='/' className='flex gap-2'>
+                  <figure className='flex justify-center items-center rounded-full p-0 ml-0 mr-0 bg-slate-900'>
+                    <Image src="/images/logoLOGIN.png" width={40} height={40} alt="imagemDoCurso" />
+                  </figure>
+                  <h2>Curso FA.</h2>
+                </Link>
               </figure>
               <nav className="flex flex-col items-start w-full mt-">
                 {getMenuLinks(props.usuario)}

@@ -19,7 +19,6 @@ export default function RootTurmas() {
     const dados = ['natural','nome','cpf','pagamento']
     const cabecalho = ['Estado', 'Nome', 'CPF', 'Pagamento']
     const [select, setSelect] = useState<string[]>([]);
-    const [alunos, setSlunos] = useState([]);
     const [openModal, setOpenModal] = useState(false)
     const [aluno, setAluno] = useState<Aluno>(Aluno.vazio())
     const [tipoModal, setTipoModal] = useState('')
@@ -102,7 +101,7 @@ export default function RootTurmas() {
       try {
         const alunoRef = doc(db, 'Estudante', alunoId);
         await deleteDoc(alunoRef);
-        console.log('Aluno excluído com sucesso do Firestore');
+        alert('Aluno excluído com sucesso do Firestore');
         setRecarregar(true)
       } catch (error) {
         console.error('Erro ao excluir aluno do Firestore:', error);
@@ -146,9 +145,10 @@ export default function RootTurmas() {
               senha: alunoEditado.senha,
             });
       
-            console.log('Aluno atualizado no Firestore');
+            alert('Aluno atualizado');
           } catch (error) {
             console.error('Erro ao atualizar aluno no Firestore', error);
+            alert('Erro ao atualizar aluno no Firestore');
           }
         };
       

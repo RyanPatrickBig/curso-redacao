@@ -4,7 +4,6 @@ import Estrelas from "../Estrelas";
 import Comentario from "@/core/Comentario";
 import { useState } from "react";
 import Aluno from "@/core/Aluno";
-import EntradaPerfil from "../EntradaPerfil";
 
 interface ModalAlunoMaterial {
     material: Material

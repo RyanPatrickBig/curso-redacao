@@ -1,8 +1,8 @@
 import { Botao } from "@/components/Botao";
 import LayoutUser from "@/components/LayoutUser";
 import { useEffect, useState } from "react";
-import { getFirestore, doc, setDoc, collection, query, where, getDocs, getDoc } from "firebase/firestore";
-import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, collection, query, where, getDocs, getDoc } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import ImageUploader from "@/components/ImageUploader";
 import PerfilDados from "@/components/EntradaPerfil";
@@ -81,6 +81,7 @@ export default function AlunoPage() {
           }
         })
         .catch((error) => {
+          alert('Ocorreu um erro inesperado, tente novamente mais tarde.')
           console.error("Erro ao buscar informações do Firestore:", error);
         });
     }
@@ -102,8 +103,9 @@ export default function AlunoPage() {
         await setDoc(userDocRef, { fotoPerfil: imageUrl }, { merge: true });
 
         setBase64Image(imageUrl);
-        console.log("Foto de perfil atualizada com sucesso.");
+        alert("Foto de perfil atualizada com sucesso.");
       } catch (error) {
+        alert("Erro ao atualizar a foto de perfil");
         console.error("Erro ao atualizar a foto de perfil:", error);
       }
     }
@@ -151,9 +153,10 @@ export default function AlunoPage() {
         await setDoc(userDocRef, editedFields, { merge: true });
         setUserProfile((prevData) => ({ ...prevData!, ...editedFields }));
 
-        console.log("Informações do perfil salvas com sucesso.");
+        alert("Informações do perfil salvas com sucesso.");
       }
     } catch (error) {
+      alert("Erro ao salvar informações do perfil")
       console.error("Erro ao salvar informações do perfil:", error);
     }
   };
@@ -167,12 +170,12 @@ export default function AlunoPage() {
             <figure className="-mt-16 ml-12 mr-2">
               <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
             </figure>
-            <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
             <div className="flex place-content-between justify-between content-between w-full">
-            <Botao onClick={handleSave} className="m-10 p-10 bg-blue-400" cor="blue">
-            {editar ? 'Alterar' : 'Salvar'}
-            </Botao>
-            <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
+              <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2> 
+              <div className="flex">
+                <Botao onClick={handleSave} className="m-10 mr-0 p-10 bg-blue-400" cor="blue">{editar ? 'Alterar' : 'Salvar'}</Botao>
+                <Botao  className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+              </div>
             </div>
           </div>
         </div>

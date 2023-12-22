@@ -4,12 +4,10 @@ import Tabela from "@/components/Tabela";
 import ModalAlunoMaterial from "@/components/modals/ModalAlunoMaterial";
 import Material from "@/core/Material";
 import Comentario from "@/core/Comentario";
-import Aluno from "@/core/Aluno";
 import { useEffect, useState } from "react";
 import { collection, getDocs, where, getDoc,addDoc, updateDoc, deleteDoc, doc, query } from "firebase/firestore";
 import { db } from '@/backend/config';
 import Turma from "@/core/Turma";
-import Link from 'next/link';
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
 import ProtectedRoute from '@/components/ProtectedRoute'
 
@@ -24,7 +22,6 @@ export default function AlunoIndex() {
     const [material, setMaterial] = useState<Material>(Material.vazio())
     const [comentario, setComentario] = useState<Comentario>(Comentario.vazio())
     const [openModal, setOpenModal] = useState(false)
-    const [azul, setAzul] = useState("");
     const [turmasDoAluno, setTurmasDoAluno] = useState<Turma[]>([]);
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [materiaisDisciplinaSelecionada, setMateriaisDisciplinaSelecionada] = useState<Material[]>([]);
@@ -57,6 +54,9 @@ export default function AlunoIndex() {
             }
     
             setTurmasDoAluno(turmasData);
+            if(!disciplinaSelecionada){
+              setDisciplinaSelecionada(turmasData[0].disciplina)
+            }
           }
         }
       };
@@ -106,7 +106,6 @@ export default function AlunoIndex() {
         
         if (disciplina !== disciplinaSelecionada) {
           setDisciplinaSelecionada(disciplina);
-          setAzul(disciplina);
     
           const materiaisData: Material[] = [];
     
@@ -127,13 +126,13 @@ export default function AlunoIndex() {
                   materiaisData.push(materialData);
                 });
               } catch (error) {
+                alert('Ocorreu um erro inesperado, tente novamente mais tarde.')
                 console.error('Erro ao buscar materiais:', error);
               }
             }
           }
     
           setMateriaisDisciplinaSelecionada(materiaisData);
-          setAzul(disciplina);
         }
       }
     };
@@ -176,6 +175,7 @@ export default function AlunoIndex() {
       try {
       const comentarioRef = await addDoc(collection(db, 'comentario'), comentarioData);
       console.log('Comentário salvo com sucesso. ID:', comentarioRef.id);
+      alert('Comentário salvo com sucesso.');
     } catch (error) {
       console.error('Erro ao salvar o comentário:', error);
       alert('Erro ao salvar o comentário. Por favor, tente novamente.');
@@ -205,7 +205,7 @@ export default function AlunoIndex() {
             estrelas: comentarioEditado.estrelas,
           });
           
-          console.log('Comentário atualizado com sucesso.');
+          alert('Comentário atualizado com sucesso.');
         } catch (error) {
           console.error('Erro ao atualizar o comentário:', error);
           alert('Erro ao atualizar o comentário. Por favor, tente novamente.');
@@ -232,7 +232,7 @@ export default function AlunoIndex() {
       try {
         const comentarioDocRef = doc(db, 'comentario', comentario.id);
         await deleteDoc(comentarioDocRef);
-        console.log('Comentário excluído com sucesso.');
+        alert('Comentário excluído com sucesso.');
       } catch (error) {
         console.error('Erro ao excluir o comentário:', error);
         alert('Erro ao excluir o comentário. Por favor, tente novamente.');
@@ -267,10 +267,10 @@ export default function AlunoIndex() {
                     <h3 className="font-Monteserrant font-semibold">Materiais</h3>
                     {turmasDoAluno.map((turma, index) => (
                     <button
-                    key={`${turma.id}_${turma.disciplina}_${index}`}
-                    onClick={() => aoClicarDisciplina(turma.disciplina)}
-                    className={`border-b-2 hover:border-blue-400 mr-4 ${disciplinaSelecionada === turma.disciplina ? 'border-blue-400' : ''}`}
-                    >
+                      key={`${turma.id}_${turma.disciplina}_${index}`}
+                      onClick={() => aoClicarDisciplina(turma.disciplina)}
+                      className={`border-b-2 hover:border-blue-400 mr-4 ${disciplinaSelecionada === turma.disciplina ? 'border-blue-400' : ''}`}
+                      >
                     {turma.disciplina}
                   </button>
                 ))}

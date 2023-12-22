@@ -8,8 +8,7 @@ import ModalRootMateriais from "@/components/modals/ModalRootMateriais";
 import Material from "@/core/Material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
-import { getFirestore, collection, getDocs, deleteDoc, doc, query } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc} from "firebase/firestore";
 import { db } from '@/backend/config';
 
 export default function ListarMateriais() {
@@ -112,11 +111,12 @@ export default function ListarMateriais() {
             setFiltragem(materiaisFiltradosAtualizados);
     
             setOpenModal(false);
-            console.log("Exclusão concluída com sucesso");
+            alert("Exclusão concluída com sucesso");
 
             aoClicar();
         } catch (error) {
             console.error('Erro ao excluir material:', error);
+            alert("Erro ao excluir material.")
         }
     }
       

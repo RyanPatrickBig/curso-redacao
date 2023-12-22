@@ -2,11 +2,6 @@ import Funcionario from "@/core/Funcionario";
 import EntradaPerfil from "../EntradaPerfil";
 import { useState } from "react";
 import {Botao} from "../Botao";
-import { addDoc, updateDoc, doc, getDoc, deleteDoc, DocumentData, collection, Firestore } from 'firebase/firestore';
-import { db } from '@/backend/config';
-import { createUserWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; 
-import { getFirestore} from 'firebase/firestore';
-import { initializeApp } from "firebase/app";
 
 
 interface ModalRootFuncionarioProps {
@@ -14,7 +9,6 @@ interface ModalRootFuncionarioProps {
     adicao?: (funcionario: Funcionario) => void
     editar?: (funcionario: Funcionario) => void
     setOpenModal?: (open: boolean) => void
-    tipoModal?: string;
 }
     
   export default function ModalRootFuncionario(props: ModalRootFuncionarioProps){
@@ -25,7 +19,6 @@ interface ModalRootFuncionarioProps {
     const [celular, setCelular] = useState(props.funcionario?.celular ?? '')
     const [email, setEmail] = useState(props.funcionario?.email ?? '')
     const [senha, setSenha] = useState(props.funcionario?.senha ?? '')
-    const tipoModal = props.tipoModal;
 
     return(
         <div>

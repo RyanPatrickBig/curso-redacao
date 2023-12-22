@@ -1,8 +1,6 @@
 import { useEffect, ReactElement } from 'react';
 import { useRouter } from 'next/router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import { getUserIntoLocalStorage } from '@/utils/authLocalStorage';
 
 const app = initializeApp({

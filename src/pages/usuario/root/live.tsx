@@ -98,9 +98,7 @@ export default function RootLive() {
           }
         } catch (error) {
           console.error("Erro ao adicionar/atualizar a live:", error);
-          alert(
-            "Ocorreu um erro ao criar/atualizar a live. Tente novamente mais tarde."
-          );
+          alert("Ocorreu um erro ao criar/atualizar a live. Tente novamente mais tarde.");
         }
       }
       

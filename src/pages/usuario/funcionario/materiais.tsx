@@ -11,9 +11,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, getDocs} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
-import {db, storage} from "@/backend/config"
+import {db} from "@/backend/config"
 
 export default function Materiais() {
 
@@ -60,10 +59,9 @@ export default function Materiais() {
         };
       } catch (error) {
         console.error("Erro ao enviar arquivo para o Firebase Storage:", error);
+        alert("Erro com o arquivo.")
         return null;
       }
-      console.error("User not authenticated");
-      return;
     }
   }
     

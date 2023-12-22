@@ -21,7 +21,10 @@ export default function Layout(props: any) {
                 <div className="p-14 px-20">
                     <h1 className="font-Montserrant text-2xl">Curso Felipe Alves</h1>
                     <h4>contato@cursofelipealves.com.br</h4>
-                    <h4>(87) 98164-0749</h4>
+                    <div className='flex place-content-between'>
+                        <h4>(87) 98164-0749</h4>    
+                        <h4>Created by Clara Lacerda, Emily Xavier & Ryan Patrick</h4>
+                    </div>
                 </div>
             </footer>
         </div>

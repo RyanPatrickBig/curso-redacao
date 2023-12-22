@@ -1,11 +1,9 @@
 import LayoutUser from "@/components/LayoutUser";
 import Tabela from "@/components/Tabela";
 import Titulo from "@/components/Titulo";
-import Turma from "@/core/Turma";
-import { getAuth, } from "firebase/auth";
 import { db } from '@/backend/config'
 import { useState, useEffect } from "react";
-import { getFirestore, doc, setDoc, collection, query, where, getDocs, getDoc, documentId } from "firebase/firestore";
+import { doc, collection, query, where, getDocs, getDoc} from "firebase/firestore";
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
 
 interface TurmaData {

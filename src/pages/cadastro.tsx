@@ -3,7 +3,6 @@ import { IconeVoltar } from "@/components/Icones";
 import Image from  'next/image';
 import Link from "next/link";
 import Aluno from "@/core/Aluno";
-import AlunoRepositorio from "@/core/AlunoRepositorio";
 
 export default function Cadastro(){
 

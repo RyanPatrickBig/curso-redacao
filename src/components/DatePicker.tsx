@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { Timestamp } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
 interface DateProps {

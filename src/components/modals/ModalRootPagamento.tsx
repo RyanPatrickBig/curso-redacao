@@ -1,4 +1,3 @@
-import Material from "@/core/Material";
 import {Botao} from "../Botao";
 import DatePicker from "../DatePicker";
 import EntradaPerfil from "../EntradaPerfil";
@@ -7,11 +6,8 @@ import Pagamento from "@/core/Pagamento";
 import Aluno from "@/core/Aluno";
 import Turma from "@/core/Turma";
 import Select from "../Select";
-import { addDoc, updateDoc, doc, getDoc, deleteDoc, DocumentData, collection, Firestore } from 'firebase/firestore';
-import { db } from '@/backend/config';
-import {  getAuth, createUserWithEmailAndPassword } from "firebase/auth"; 
+import { addDoc, collection } from 'firebase/firestore';
 import { getFirestore} from 'firebase/firestore';
-import { initializeApp } from "firebase/app";
 
 interface ModalRootPagamentoProps {
     aluno: Aluno

@@ -1,6 +1,5 @@
 import { format } from "date-fns"
 import { IconeDeletar } from "./Icones"
-import Funcionario from "@/core/Funcionario"
 import Pagamento from "@/core/Pagamento"
 import { Timestamp } from "firebase/firestore"
 

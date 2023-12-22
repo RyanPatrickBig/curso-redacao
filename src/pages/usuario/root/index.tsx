@@ -11,7 +11,7 @@ import ModalExcluir from "@/components/modals/ModalExcluir";
 import ModalRootALunos from "@/components/modals/ModalRootAlunos";
 import Turma from "@/core/Turma";
 import Pagamento from "@/core/Pagamento";
-import { getDocs, query, collection, addDoc, where, updateDoc, doc, getDoc, deleteDoc, DocumentData } from 'firebase/firestore';
+import { getDocs, query, collection, where, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/backend/config';
 
 export default function RootAlunos() {
@@ -57,6 +57,7 @@ export default function RootAlunos() {
           filtragemResultante = alunos;
         } else {
           console.error("Turma não encontrada");
+          alert("Turma não encontrada");
           filtragemResultante = [];
         }
       }
@@ -129,9 +130,10 @@ export default function RootAlunos() {
       try {
         const alunoRef = doc(db, 'Estudante', alunoId);
         await deleteDoc(alunoRef);
-        console.log('Aluno excluído com sucesso do Firestore');
+        alert('Aluno excluído com sucesso do Firestore');
       } catch (error) {
         console.error('Erro ao excluir aluno do Firestore:', error);
+        alert('Erro ao excluir aluno');
       }
     };
 
@@ -146,6 +148,7 @@ export default function RootAlunos() {
       setRecarregar(true);
     } catch (error) {
       console.error('Erro ao excluir aluno:', error);
+      alert('Erro ao excluir aluno');
     }
   };
 
@@ -173,9 +176,10 @@ export default function RootAlunos() {
           senha: alunoEditado.senha,
         });
   
-        console.log('Aluno atualizado no Firestore');
+        alert('Aluno atualizado');
       } catch (error) {
         console.error('Erro ao atualizar aluno no Firestore', error);
+        alert('Erro ao atualizar aluno no Firestore');
       }
     };
   

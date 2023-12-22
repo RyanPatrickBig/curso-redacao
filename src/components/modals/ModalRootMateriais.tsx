@@ -4,7 +4,7 @@ import Comentarios from "../Comentarios";
 import Comentario from "@/core/Comentario";
 import Aluno from "@/core/Aluno";
 import { useState, useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import {db} from '@/backend/config'
 
 interface ModalAlunoMaterialProps {

@@ -5,10 +5,9 @@ import Funcionario from "@/core/Funcionario";
 import { useState, useEffect } from "react";
 import EntradaPerfil from "@/components/EntradaPerfil";
 import ImageUploader from "@/components/ImageUploader";
-import { getAuth } from "firebase/auth";
-import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
-import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import {db, storage} from "@/backend/config"
 
 interface UserProfile {
@@ -74,9 +73,10 @@ export default function PerfilFuncionario() {
             await setDoc(userDocRef, { fotoPerfil: imageUrl }, { merge: true });
     
             setBase64Image(imageUrl);
-            console.log("Foto de perfil atualizada com sucesso.");
+            alert("Foto de perfil atualizada com sucesso.");
           } catch (error) {
             console.error("Erro ao atualizar a foto de perfil:", error);
+            alert("Erro ao atualizar a foto de perfil.")
           }
         }
       };
@@ -94,12 +94,12 @@ export default function PerfilFuncionario() {
                 <figure className="-mt-16 ml-12 mr-2">
                 <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
                 </figure>
-                <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
                 <div className="flex place-content-between justify-between content-between w-full">
-                    <Botao onClick={() => salvarFuncionario(
-                        new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} 
-                    className="m-10 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
-                        <Botao  className="m-10 p-10 bg-blue-400" cor="blue">Sair</Botao>
+                  <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
+                      <div className="flex">
+                        <Botao onClick={() => salvarFuncionario(new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} className="m-10 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                        <Botao  className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+                      </div>
                     </div>
                 </div>
             </section>

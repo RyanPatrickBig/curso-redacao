@@ -11,6 +11,7 @@ interface PerfilProps{
     className?: any
     className2?: any
 }
+
 export default function PerfilDados(props: PerfilProps){
     return (
         <div className={`flex flex-col ${props.className} text-black`}>

@@ -1,8 +1,8 @@
 import Turma from "@/core/Turma";
 import Select from "../Select";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalTurma from "./ModalTurma";
-import { getDocs, collection, addDoc, updateDoc, doc, getDoc, deleteDoc, DocumentData } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/backend/config';
 
 interface ModalRootTurmaProps {
@@ -20,7 +20,6 @@ export default function ModalRootTurma(props: ModalRootTurmaProps){
     const [excluir, setExcluir] = useState<Boolean>(false)
     const [turma, setTurma] = useState<Turma>(Turma.vazio())
     const [seletor, setSeletor] = useState(props.turmasSeletor) 
-    const [editando, setEditando] = useState<Boolean>(false);
     const [modoEdicao, setModoEdicao] = useState(false);
 
 

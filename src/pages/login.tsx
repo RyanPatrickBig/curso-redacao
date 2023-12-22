@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { db } from "@/backend/config";
-import { getFirestore, addDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import router from 'next/router';
 import { saveUserIntoLocalStorage } from '@/utils/authLocalStorage';
 
@@ -53,8 +53,10 @@ export default function Login() {
             }
 
             console.error("Nenhum usuário encontrado com este email.");
+            alert("Senha ou usuário incorretos, tente novamente.")
         } catch (error) {
             console.error("Erro ao fazer login:", error);
+            alert("Senha ou usuário incorretos, tente novamente mais tarde.")
         }
     }
 
@@ -67,6 +69,7 @@ export default function Login() {
             router.push('/usuario/aluno/perfil');
         } catch (error) {
             console.error('Erro durante o login com o Google:', error);
+            alert('Houve um erro com o Google Serviços, tente novamente mais tarde.')
         }
     }
 
@@ -98,7 +101,10 @@ export default function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="username"
-                        />
+                            pattern={"/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/"}
+                        />   
+                        {email && !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email) && (<small className="text-white -mt-6 mb-3">E-mail inválido.</small>)}
+                        
 
                     </div>
                     <div className="flex flex-col">

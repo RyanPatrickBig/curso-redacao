@@ -1,5 +1,3 @@
-import Material from "@/core/Material";
-import ListarMateriais from "@/pages/usuario/funcionario/listarMateriais"
 import React from 'react';
 
 interface ModalAlunoMaterialProps {

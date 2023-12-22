@@ -12,7 +12,6 @@ import { db } from '@/backend/config';
 
 export default function RootMateriais() {
 
-    const [materiais, setMateriais] = useState<Material[]>([]);
     const [comentarios, setComentarios] = useState([]);
     const [alunos, setAlunos] = useState([])
     const dados = ['nome', 'professor', 'turma']
@@ -106,9 +105,10 @@ export default function RootMateriais() {
       
           const materialRef = doc(db, 'Material', materialId);
           await deleteDoc(materialRef);
-          console.log('Material excluído com sucesso do Firestore');
+          alert('Material excluído com sucesso do Firestore');
         } catch (error) {
           console.error('Erro ao excluir material do Firestore:', error);
+          alert('Erro ao excluir material do Firestore');
         }
       };
       
@@ -123,6 +123,7 @@ export default function RootMateriais() {
           setOpenModal(false);
         } catch (error) {
           console.error('Erro ao excluir material:', error);
+          alert('Erro ao excluir material');
         }
       };
 

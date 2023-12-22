@@ -4,9 +4,8 @@ import { useState } from "react";
 import {Botao} from "../Botao";
 import { IconeVoltar } from "../Icones";
 import Select from "../Select";
-import { addDoc, updateDoc, doc, getDoc, DocumentData, collection, Firestore } from 'firebase/firestore';
+import { addDoc, updateDoc, doc, getDoc, collection } from 'firebase/firestore';
 import { db } from '@/backend/config';
-import {  getAuth, createUserWithEmailAndPassword } from "firebase/auth"; 
 
 interface ModalRootTurmaProps {
     turma: Turma

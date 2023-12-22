@@ -15,7 +15,6 @@ export default function FuncionarioTurmas() {
   const [listagem, setListagem] = useState<Aluno[]>([]);
   const [filtragem, setFiltragem] = useState<DocumentData[]>(listagem);
   const [filtro, setFiltro] = useState("Todos(as)");
-  const [turmas, setTurmas] = useState<string[]>([]);
   const [listaTurmas, setListaTurmas] = useState<Aluno[]>([]);
 
   useEffect(() => {
@@ -58,6 +57,7 @@ export default function FuncionarioTurmas() {
           setFiltragem(alunos);
         } else {
           console.error("Turma não encontrada:", filtro);
+          alert("Turma não encontrada ")
         }
       }
     } catch (error) {

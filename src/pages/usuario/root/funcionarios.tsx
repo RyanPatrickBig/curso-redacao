@@ -6,10 +6,9 @@ import Funcionario from "@/core/Funcionario";
 import Modal from "@/components/Modal";
 import ModalRootFuncionario from '@/components/modals/ModalRootFuncionario'
 import ModalExcluir from "@/components/modals/ModalExcluir";
-import { getDocs, collection, addDoc, updateDoc, doc, getDoc, deleteDoc, DocumentData, query } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; 
+import { getDocs, collection, addDoc, updateDoc, doc, getDoc, deleteDoc, query } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"; 
 import { db } from '@/backend/config';
-import {Botao} from "@/components/Botao";
 
 export default function RootFuncionarios() {
 
@@ -59,10 +58,11 @@ export default function RootFuncionarios() {
         try {
           const funcionarioRef = doc(db, 'Funcionario', funcionarioId);
           await deleteDoc(funcionarioRef);
-          console.log('Funcionário excluído com sucesso do Firestore');
+          alert('Funcionário excluído com sucesso do Firestore');
           setRecarregar(true)
         } catch (error) {
           console.error('Erro ao excluir funcionário do Firestore:', error);
+          alert('Erro ao excluir funcionário');
         }
       };
       
@@ -77,6 +77,7 @@ export default function RootFuncionarios() {
           setRecarregar(true);
         } catch (error) {
           console.error('Erro ao excluir funcionário:', error);
+          alert('Erro ao excluir funcionário');
         }
       };
 
@@ -97,6 +98,7 @@ export default function RootFuncionarios() {
 
                 const docRef = await addDoc(collection(db, "Funcionario"), funcionarioData);
                 console.log("Funcionário adicionado com ID:", docRef.id);
+                alert("Funcionário adicionado!");
     
                 const funcionarioSnapshot = await getDoc(doc(db, 'Funcionario', docRef.id));
                 const novoFuncionario = funcionarioSnapshot.data() as Funcionario;
@@ -106,6 +108,7 @@ export default function RootFuncionarios() {
             setRecarregar(true)
             } catch (error) {
                 console.error("Erro ao adicionar o funcionário ao Firestore", error);
+                alert("Erro ao adicionar o funcionário");
             }
         } else {
             alert("Objeto Inválido");
@@ -134,9 +137,10 @@ export default function RootFuncionarios() {
             });
     
       
-            console.log('Funcionario atualizado no Firestore');
+            alert('Funcionario atualizado');
           } catch (error) {
             console.error('Erro ao atualizar funcionario no Firestore', error);
+            alert('Erro ao atualizar funcionario no Firestore');
           }
         };
       
