@@ -9,6 +9,8 @@ import PerfilDados from "@/components/EntradaPerfil";
 import { differenceInDays, addMonths } from 'date-fns';
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
 import {db, storage} from "@/backend/config"
+import { getAuth, signOut } from 'firebase/auth';
+import { useRouter } from 'next/router';
 
 interface UserProfile {
   modalidade: string;
@@ -29,17 +31,17 @@ export default function AlunoPage() {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [diasRestantes, setDiasRestantes] = useState<number>(0);
   const [porcentagemPercorrida, setPorcentagemPercorrida] = useState<number>(0);
-  const [nomeEditavel, setNomeEditavel] = useState(userProfile?.nome ?? '');
-  const [rgEditavel, setRgEditavel] = useState(userProfile?.rg ?? '');
-  const [cpfEditavel, setCpfEditavel] = useState(userProfile?.cpf ?? '');
-  const [celularEditavel, setCelularEditavel] = useState(userProfile?.celular ?? '');
-  const [enderecoEditavel, setEnderecoEditavel] = useState(userProfile?.endereco ?? '');
+  const [nomeEditavel, setNomeEditavel] = useState(userProfile?.nome || '');
+  const [rgEditavel, setRgEditavel] = useState(userProfile?.rg || '');
+  const [cpfEditavel, setCpfEditavel] = useState(userProfile?.cpf || '');
+  const [celularEditavel, setCelularEditavel] = useState(userProfile?.celular || '');
+  const [enderecoEditavel, setEnderecoEditavel] = useState(userProfile?.endereco || '');
+
   const user = getUserIntoLocalStorage()
+  const router = useRouter();
 
   useEffect(() => {
-
     if (user) {
-
       const alunosRef = collection(db, "Estudante");
       const q = query(alunosRef, where("email", "==", user.email));
 
@@ -76,16 +78,17 @@ export default function AlunoPage() {
                 console.error("O snapshot da turma não existe.");
               }
             } else {
-              console.error("turmaId não definido ou vazio.");
+              console.error("turmaIds não definido ou vazio.");
             }
           }
         })
         .catch((error) => {
-          alert('Ocorreu um erro inesperado, tente novamente mais tarde.')
+          alert('Ocorreu um erro inesperado, tente novamente mais tarde.');
           console.error("Erro ao buscar informações do Firestore:", error);
         });
     }
   }, []);
+
 
   const handleImageUpload = async (base64Image: string) => {
     
@@ -137,27 +140,36 @@ export default function AlunoPage() {
 
   const handleSave = async () => {
     try {
-
-      if (user) {
-
+      if (user && userProfile) {
         const userDocRef = doc(db, "Estudante", user.uid);
-
+  
         const editedFields = {
-          nome: nomeEditavel,
-          rg: rgEditavel,
-          cpf: cpfEditavel,
-          celular: celularEditavel,
-          endereco: enderecoEditavel,
+          nome: nomeEditavel || userProfile.nome,
+          rg: rgEditavel || userProfile.rg,
+          cpf: cpfEditavel || userProfile.cpf,
+          celular: celularEditavel || userProfile.celular,
+          endereco: enderecoEditavel || userProfile.endereco,
         };
-
+  
         await setDoc(userDocRef, editedFields, { merge: true });
         setUserProfile((prevData) => ({ ...prevData!, ...editedFields }));
-
+        setEditar(true);
         alert("Informações do perfil salvas com sucesso.");
       }
     } catch (error) {
-      alert("Erro ao salvar informações do perfil")
+      alert("Erro ao salvar informações do perfil");
       console.error("Erro ao salvar informações do perfil:", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);  
+      router.push('/login'); 
+    } catch (error) {
+      alert("Erro ao fazer logout")
+      console.error('Erro ao fazer logout:', error);
     }
   };
 
@@ -174,7 +186,7 @@ export default function AlunoPage() {
               <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2> 
               <div className="flex">
                 <Botao onClick={handleSave} className="m-10 mr-0 p-10 bg-blue-400" cor="blue">{editar ? 'Alterar' : 'Salvar'}</Botao>
-                <Botao  className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+                <Botao onClick={handleLogout} className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
               </div>
             </div>
           </div>

@@ -9,6 +9,8 @@ import { doc, setDoc, collection, query, where, getDocs } from "firebase/firesto
 import { getUserIntoLocalStorage } from "@/utils/authLocalStorage";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import {db, storage} from "@/backend/config"
+import { getAuth, signOut } from 'firebase/auth';
+import { useRouter } from 'next/router';
 
 interface UserProfile {
     nome: string;
@@ -34,6 +36,7 @@ export default function PerfilFuncionario() {
     const [id, setId] = useState(userProfile?.id ?? '')
     const [senha, setSenha] = useState(userProfile?.senha ?? '')
     const user = getUserIntoLocalStorage();
+    const router = useRouter();
 
     useEffect(() => {
 
@@ -85,6 +88,17 @@ export default function PerfilFuncionario() {
             setEditar(!editar)
         }
 
+        const handleLogout = async () => {
+          try {
+            const auth = getAuth();
+            await signOut(auth);  
+            router.push('/login'); 
+          } catch (error) {
+            alert("Erro ao fazer logout")
+            console.error('Erro ao fazer logout:', error);
+          }
+        };
+
     return (
         <LayoutUser usuario={'funcionario'} className="flex flex-col gap-2 text-black" divisoes>
             
@@ -98,7 +112,7 @@ export default function PerfilFuncionario() {
                   <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
                       <div className="flex">
                         <Botao onClick={() => salvarFuncionario(new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} className="m-10 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
-                        <Botao  className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+                        <Botao onClick={handleLogout} className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
                       </div>
                     </div>
                 </div>

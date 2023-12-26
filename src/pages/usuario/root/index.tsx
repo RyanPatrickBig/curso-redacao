@@ -1,4 +1,5 @@
 import LayoutUser from "@/components/LayoutUser";
+import { Botao } from "@/components/Botao";
 import Select from "@/components/Select";
 import TabelaRoot from "@/components/TabelaRoot";
 import Titulo from "@/components/Titulo";
@@ -13,6 +14,8 @@ import Turma from "@/core/Turma";
 import Pagamento from "@/core/Pagamento";
 import { getDocs, query, collection, where, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/backend/config';
+import { getAuth, signOut } from 'firebase/auth';
+import { useRouter } from 'next/router';
 
 export default function RootAlunos() {
 
@@ -33,6 +36,7 @@ export default function RootAlunos() {
     const [filtro2, setFiltro2] = useState('Todos(as)')
     const [recarregar, setRecarregar] = useState(false)
     const [pesquisa, setPesquisa] = useState('')
+    const router = useRouter();
 
     const aoClicar = async () => {
       let filtragemResultante = listagem;
@@ -197,10 +201,23 @@ export default function RootAlunos() {
     setRecarregar(true);
   }
 
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);  
+      router.push('/login'); 
+    } catch (error) {
+      alert("Erro ao fazer logout")
+      console.error('Erro ao fazer logout:', error);
+    }
+  };
+
     return (
         <LayoutUser usuario={'root'} className="text-black">
             <div className="flex place-content-between">
                 <Titulo>Alunos</Titulo>
+                <Botao onClick={handleLogout} className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+
             </div>
             <div className="flex flex-row items-center w-full">
                 <Select seletor={select1}
@@ -210,6 +227,7 @@ export default function RootAlunos() {
                         titulo="Mensalidade"
                         setFiltro={setFiltro2}/>
                 <Pesquisa setPesquisa={setPesquisa}/>
+                
             </div>
             <TabelaRoot objeto={filtragem1}
                     propriedadesExibidas={dados}

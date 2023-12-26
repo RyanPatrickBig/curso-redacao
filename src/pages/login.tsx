@@ -59,19 +59,7 @@ export default function Login() {
             alert("Senha ou usuário incorretos, tente novamente mais tarde.")
         }
     }
-
-    async function loginComGoogle() {
-        try {
-            const auth = getAuth();
-            const provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
-
-            router.push('/usuario/aluno/perfil');
-        } catch (error) {
-            console.error('Erro durante o login com o Google:', error);
-            alert('Houve um erro com o Google Serviços, tente novamente mais tarde.')
-        }
-    }
+    
 
     return (
         <div className="flex flex-row justify-center">
@@ -96,14 +84,16 @@ export default function Login() {
                     <div className="flex flex-col">
 
                         <label className="font-Montserrant text-gray-300"> E-mail </label>
-                        <input className={`border-b border-gray-400 focus:outline-none py-2 px-5 mb-7 bg-transparent text-white`}
-                            placeholder='Digite seu e-mail'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            autoComplete="username"
-                            pattern={"/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/"}
-                        />   
-                        {email && !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email) && (<small className="text-white -mt-6 mb-3">E-mail inválido.</small>)}
+                        <input
+  className={`border-b border-gray-400 focus:outline-none py-2 px-5 mb-7 bg-transparent text-white`}
+  placeholder='Digite seu e-mail'
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  autoComplete="username"
+  pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\\-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+  />   
+{email && !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email) && (<small className="text-white -mt-6 mb-3">E-mail inválido.</small>)}
+
                         
 
                     </div>
@@ -129,12 +119,6 @@ export default function Login() {
                     </div>
                     <hr className='my-1 border-gray-500 w-full' />
 
-                    <button
-                        className='flex w-full bg-white hover:bg-slate-200 text-slate-800 font-semibold rounded-lg px-4 py-3 items-center justify-center gap-5'
-                        onClick={loginComGoogle}
-                    >
-                        <Image src='/images/pesquisa.png' width='23' height='23' alt='imagemDoCurso'></Image>Entrar com Google
-                    </button>
                 </form>
             </div>
         </div>

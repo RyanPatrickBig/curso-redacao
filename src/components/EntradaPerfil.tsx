@@ -10,6 +10,7 @@ interface PerfilProps{
     placeholder?: string
     className?: any
     className2?: any
+    pattern?: RegExp;
 }
 
 export default function PerfilDados(props: PerfilProps){
@@ -32,7 +33,8 @@ export default function PerfilDados(props: PerfilProps){
                     ${props.somenteLeitura == true ? '' : 'focus:bg-slate-50'}
                     ${props.className2}
                 `}
-                placeholder={props.placeholder ?? '...'} />
+                placeholder={props.placeholder ?? '...'} 
+                pattern={props.pattern?.source} />
         </div>
     )
 }
