@@ -32,7 +32,6 @@ interface FormularioProps{
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     const cpfRegex = /^(\d{3}\.\d{3}\.\d{3}-\d{2})|(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})$/;
-    const celularRegex = /^\(\d{2}\)\d{5}-\d{4}$/;
     const auth = getAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -80,6 +79,7 @@ interface FormularioProps{
           setData(new Date(0))
           setCpf("");
           setEmail("");
+          setSenha("")
           setConfirmarSenha('');
           setMensalidade(0);
           setTermosDeUso(false);
@@ -105,7 +105,7 @@ interface FormularioProps{
             <DatePicker classname="text-black" titulo="Data de Nascimento" dataMax={new Date()}/>
             <Entrada texto="Naturalidade ( Cidade/Estado )" valor={natural} valorMudou={(e) => setNatural(e.target.value)} />
             <Entrada texto="Endereço ( Rua, Nº, Bairro)" valor={endereco} valorMudou={(e) => setEndereco(e.target.value)} />
-            <Entrada texto="Número de celular (com DDD)" valor={celular} valorMudou={(e) => setCelular(e.target.value)} placeholder="(**)*****-****" pattern={celularRegex} className2={'mb-1'}/> {celular && !celularRegex.test(celular) && (<small className="text-red-500">Número inválido ( (**)*****-**** ).</small>)} 
+            <Entrada texto="Número de celular (com DDD)" valor={celular} valorMudou={(e) => setCelular(e.target.value)} placeholder="(**)*****-****" className2={'mb-1'}/>  
             <Entrada texto="E-mail" valor={email} valorMudou={(e) => setEmail(e.target.value)} tipo="email"className={'mt-6'} className2={'mb-1'} pattern={emailRegex} /> {email && !emailRegex.test(email) && (<small className="text-red-500">E-mail inválido.</small>)}
             <Entrada texto="Nome do Pai" valor={pai} valorMudou={(e) => setPai(e.target.value)} className={'mt-6'} />
             <Entrada texto="Nome da Mãe" valor={mae} valorMudou={(e) => setMae(e.target.value)} />
