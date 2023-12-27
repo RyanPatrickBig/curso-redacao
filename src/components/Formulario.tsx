@@ -37,6 +37,11 @@ interface FormularioProps{
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!nome|| data?.getTime()==0|| !natural|| !endereco|| !celular|| !email|| !pai|| !mae|| !rg|| !cpf|| !senha){
+            alert("Preencha todos os campos.")
+            return
+        }
+
         if (!termosDeUso) {
             alert("Você deve aceitar os termos de uso para continuar.");
             return;
@@ -88,6 +93,7 @@ interface FormularioProps{
         } catch (error) {
             if(error?.toString() == "FirebaseError: Firebase: Error (auth/email-already-in-use)."){
                 alert("Email já em uso.")
+                return
             }
             console.error("Erro ao salvar os dados no Firestore", error);
             alert("Erro ao registrar, tente novamente mais tarde.")
@@ -102,7 +108,7 @@ interface FormularioProps{
         <div>
             <form onSubmit={handleSubmit}>
             <Entrada texto="Nome" valor={nome} valorMudou={(e) => setNome(e.target.value)} placeholder="Digite seu nome COMPLETO" />
-            <DatePicker classname="text-black" titulo="Data de Nascimento" dataMax={new Date()}/>
+            <DatePicker classname="text-black" titulo="Data de Nascimento" dataMax={new Date()} setData={setData}/>
             <Entrada texto="Naturalidade ( Cidade/Estado )" valor={natural} valorMudou={(e) => setNatural(e.target.value)} />
             <Entrada texto="Endereço ( Rua, Nº, Bairro)" valor={endereco} valorMudou={(e) => setEndereco(e.target.value)} />
             <Entrada texto="Número de celular (com DDD)" valor={celular} valorMudou={(e) => setCelular(e.target.value)} placeholder="(**)*****-****" className2={'mb-1'}/>  
