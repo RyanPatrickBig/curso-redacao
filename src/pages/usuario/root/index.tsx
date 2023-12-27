@@ -88,10 +88,10 @@ export default function RootAlunos() {
     };      
     
       useEffect(() => {
-        if(filtro1 || filtro2 || listaTurmas|| pesquisa){
+        if(filtro1 || filtro2 || listaTurmas|| pesquisa || recarregar){
           aoClicar();
         }
-      }, [filtro1, filtro2, listaTurmas, pesquisa]);
+      }, [filtro1, filtro2, listaTurmas, pesquisa, recarregar]);
       
       
       useEffect(() => {
@@ -134,7 +134,8 @@ export default function RootAlunos() {
       try {
         const alunoRef = doc(db, 'Estudante', alunoId);
         await deleteDoc(alunoRef);
-        alert('Aluno excluído com sucesso do Firestore');
+        alert('Aluno excluído com sucesso');
+        setRecarregar(true);
       } catch (error) {
         console.error('Erro ao excluir aluno do Firestore:', error);
         alert('Erro ao excluir aluno');
