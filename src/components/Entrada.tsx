@@ -7,7 +7,7 @@ interface EntradaProps{
     placeholder?: string;
     className?: any;
     className2?: any;
-    pattern?: any;
+    pattern?: RegExp;
 }
 
 export default function Entrada(props: EntradaProps){
@@ -17,7 +17,7 @@ export default function Entrada(props: EntradaProps){
                 {props.texto}
             </label>
             <input 
-                pattern={props.pattern ?? ''}
+                pattern={props.pattern?.source}
                 type={props.tipo ?? 'text'}
                 value={props.valor}
                 readOnly={props.somenteLeitura}

@@ -32,6 +32,7 @@ interface FormularioProps{
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     const cpfRegex = /^(\d{3}\.\d{3}\.\d{3}-\d{2})|(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})$/;
+    const celularRegex = /^\(\d{2}\)\d{5}-\d{4}$/;
     const auth = getAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -85,10 +86,13 @@ interface FormularioProps{
 
           
         } catch (error) {
-          console.error("Erro ao salvar os dados no Firestore", error);
-          alert("Erro ao registrar, tente novamente mais tarde")
+            if(error?.toString() == "FirebaseError: Firebase: Error (auth/email-already-in-use)."){
+                alert("Email já em uso.")
+            }
+            console.error("Erro ao salvar os dados no Firestore", error);
+            alert("Erro ao registrar, tente novamente mais tarde.")
         }
-      };
+    };
       
       const handleTermosDeUsoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setTermosDeUso(e.target.checked);
@@ -101,7 +105,7 @@ interface FormularioProps{
             <DatePicker classname="text-black" titulo="Data de Nascimento" dataMax={new Date()}/>
             <Entrada texto="Naturalidade ( Cidade/Estado )" valor={natural} valorMudou={(e) => setNatural(e.target.value)} />
             <Entrada texto="Endereço ( Rua, Nº, Bairro)" valor={endereco} valorMudou={(e) => setEndereco(e.target.value)} />
-            <Entrada texto="Número de celular (com DDD)" valor={celular} valorMudou={(e) => setCelular(e.target.value)} placeholder="(**)*****-****" pattern={"^\(\d{2}\)\d{4,5}-\d{4}$"} className2={'mb-1'}/>
+            <Entrada texto="Número de celular (com DDD)" valor={celular} valorMudou={(e) => setCelular(e.target.value)} placeholder="(**)*****-****" pattern={celularRegex} className2={'mb-1'}/> {celular && !celularRegex.test(celular) && (<small className="text-red-500">Número inválido ( (**)*****-**** ).</small>)} 
             <Entrada texto="E-mail" valor={email} valorMudou={(e) => setEmail(e.target.value)} tipo="email"className={'mt-6'} className2={'mb-1'} pattern={emailRegex} /> {email && !emailRegex.test(email) && (<small className="text-red-500">E-mail inválido.</small>)}
             <Entrada texto="Nome do Pai" valor={pai} valorMudou={(e) => setPai(e.target.value)} className={'mt-6'} />
             <Entrada texto="Nome da Mãe" valor={mae} valorMudou={(e) => setMae(e.target.value)} />
@@ -110,14 +114,8 @@ interface FormularioProps{
             <Entrada texto="Confirmar Senha" valor={confirmarSenha} valorMudou={(e) => setConfirmarSenha(e.target.value)} tipo="password" className={'mt-6'} className2={'mb-1'} />
             {senha.length >= 6 && senha !== confirmarSenha && (<small className="text-red-500">As senhas não coincidem.</small>)}
             <h2 className="font-Montserrant mt-6">Documentação</h2><br />
-            <Entrada texto="RG" valor={rg} valorMudou={(e) => setRg(e.target.value)} />
-            <Entrada texto="CPF"
-            valor={cpf}
-            valorMudou={(e) => setCpf(e.target.value)}
-            className2={'mb-1'}
-            placeholder="xxx.xxx.xxx-xx"
-            pattern={cpfRegex}
-            /> {cpf && !cpfRegex.test(cpf) && (<small className="text-red-500">CPF inválido.</small>)}            
+            <Entrada texto="RG" valor={rg} valorMudou={(e) => setRg(e.target.value)}/>
+            <Entrada texto="CPF" valor={cpf} valorMudou={(e) => setCpf(e.target.value)} className2={'mb-1'} placeholder="xxx.xxx.xxx-xx" pattern={cpfRegex} /> {cpf && !cpfRegex.test(cpf) && (<small className="text-red-500">CPF inválido ( xxx.xxx.xxx-xx ).</small>)}            
 
             <label className="font-Montserrant flex mt-6">Data de preferência para pagamento</label>
             <div className="flex flex-row items-center gap-6 pt-4">

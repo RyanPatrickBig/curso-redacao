@@ -58,7 +58,7 @@ export default function RootFuncionarios() {
         try {
           const funcionarioRef = doc(db, 'Funcionario', funcionarioId);
           await deleteDoc(funcionarioRef);
-          alert('Funcionário excluído com sucesso do Firestore');
+          alert('Funcionário excluído com sucesso');
           setRecarregar(true)
         } catch (error) {
           console.error('Erro ao excluir funcionário do Firestore:', error);

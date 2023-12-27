@@ -214,11 +214,7 @@ export default function RootAlunos() {
 
     return (
         <LayoutUser usuario={'root'} className="text-black">
-            <div className="flex place-content-between">
                 <Titulo>Alunos</Titulo>
-                <Botao onClick={handleLogout} className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
-
-            </div>
             <div className="flex flex-row items-center w-full">
                 <Select seletor={select1}
                         titulo="Turma"
@@ -227,6 +223,7 @@ export default function RootAlunos() {
                         titulo="Mensalidade"
                         setFiltro={setFiltro2}/>
                 <Pesquisa setPesquisa={setPesquisa}/>
+                <Botao onClick={handleLogout} className="m-0 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
                 
             </div>
             <TabelaRoot objeto={filtragem1}
