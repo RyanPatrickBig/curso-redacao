@@ -8,11 +8,9 @@ export default function Home(){
       <div className="grid gap-20">
         
         <section>
-          <InitialSection ordem={true} titulo='Sabe o que vamos estudar por aqui?' img='/images/Estudaraqui.jpg' className='font-bold'>
-            Olha só esses 2 jeitinhos que você pode estar estudando com a gente:
-          </InitialSection>
-          
+          <InitialSection ordem={true} titulo='Sabe o que vamos estudar por aqui?' img='/images/Estudaraqui.jpg' className='font-bold'>Olha só esses 3 jeitinhos que você pode estar estudando com a gente:</InitialSection>
           <InitialSection ordem={false} titulo='Presencial' img='/images/IMG_3834.JPG'>
+
             <div className=' max-h-40 hover:max-h-[700px] transition-all duration-1000 delay-100 ease-in-out overflow-hidden '>
               <h3>
                 Estes são os benefícios da nossa modalidade presencial: 
@@ -39,11 +37,10 @@ export default function Home(){
               </svg>
             </div>
           </InitialSection>
-
             <div className="flex justify-center">
-              <div className='flex flex-col md:p-10 py-10 p-8 mb-20 md:w-11/12 w-full bg-slate-700 rounded-lg text-white'>
+              <div className='flex flex-col p-10 mb-20 w-11/12 bg-slate-700 rounded-lg text-white'>
                   <h2>Informações das Turmas Presenciais</h2>
-                <h4 className='md:text-lg'>
+                <h4>
                   <br/>🗓️ Em 2024, nosso início está previsto para 30 de janeiro, ok? Depende do dia em que você for fazer a isolada, conforme quadro de horários a seguir: 
                   <br/>⚪ - Matemática (nas terças-feiras, à tarde, das 14h às 17h; nas terças-feiras, à noite, das 18h às 21h). 
                   <br/>⚪ - Linguagens (nas quintas-feiras, à tarde, das 13h às 15h; nas quintas-feiras, à noite, das 18h às 20h; nos sábados, de manhã, das 8h às 10h). 
@@ -52,8 +49,8 @@ export default function Home(){
                 </h4>
               </div>
             </div>
-
           <InitialSection ordem={true} titulo='Online' img='/images/IMG_3810.JPG'>
+
             <div className=' max-h-[140px] hover:max-h-[400px] transition-all duration-1000 delay-100 ease-in-out overflow-hidden '>
               <h3>
                 Estes são os benefícios da nossa modalidade <span className='font-bold'>on-line</span>:
@@ -78,15 +75,14 @@ export default function Home(){
               </svg>
             </div>
           </InitialSection>
-
         </section>
 
-        <section className="grid flex-row gap-20">
-          <div className="grid justify-items-center">
+        <section className="grid lg:flex lg:flex-row gap-20">
+          <div className="grid justify-items-center lg:col-span-1">
             <h1 className="text-4xl font-Montserrant">Planos</h1>
             <h2 className="text-2xl text-center">Você pode escolher um entre os planos <br/> Presencial e Online</h2>
           </div>
-          <div className="md:grid md:grid-cols-2 md:gap-7 flex flex-col gap-10 items-center">
+          <div className="grid grid-cols-2 gap-7 items-center">
             <div className="bg-slate-700 p-9 text-white rounded-md shadow-2xl">
               <div className="rounded-full h-12 w-12 bg-blue-300 mb-6"/>
               <h1 className="font-bold font-Montserrant text-2xl text-white">Presencial</h1><br/>
