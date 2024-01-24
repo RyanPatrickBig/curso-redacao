@@ -10,7 +10,7 @@ export default function Layout(props: any) {
     };
     
     return (
-        <div className={`bg-white flex flex-col flex-wrap m-6 rounded-xl text-black w-fit`}>
+        <div className={`bg-white flex flex-col flex-wrap m-6 rounded-xl text-black md:w-fit min-w-[53vh] md:min-w-0`}>
             <header className="flex gap-3 flex-col md:flex-row mx-24 md:my-10 mt-8 justify-between items-center font-semibold ">
 
                 <div className='flex'>
@@ -41,11 +41,11 @@ export default function Layout(props: any) {
             <div className="px-24 py-6 h-fit mb-52">
                 {props.children}
             </div>
-            <footer style={{ backgroundColor: '#373E48', color: 'white' }}>
-                <div className="p-14 px-20">
+            <footer style={{ backgroundColor: '#373E48', color: 'white' }} className='w-fit md:w-full'>
+                <div className="p-14 px-20 ">
                     <h1 className="font-Montserrant text-2xl">Curso Felipe Alves</h1>
                     <h4>contato@cursofelipealves.com.br</h4>
-                    <div className='flex place-content-between'>
+                    <div className='flex place-content-between flex-wrap md:flex md:mt-0'>
                         <h4>(87) 98164-0749</h4>    
                         <h4>Created by Clara Lacerda, Emily Xavier & Ryan Patrick</h4>
                     </div>
