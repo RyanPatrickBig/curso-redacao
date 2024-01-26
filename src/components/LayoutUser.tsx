@@ -101,8 +101,8 @@ export default function LayoutUser(props: LayoutUserProps) {
     return menuOptions[userType].map((option, index) => (
       <Link legacyBehavior href={option.href} key={index}>
         <a
-          className={`text-black hover:bg-blue-50 pr-32 w-full py-2 pl-10 ${
-            router.pathname === option.href ? 'bg-blue-100 border-l-4 border-blue-300' : ''
+          className={`text-black hover:bg-blue-50 zpr-32 zw-full zpy-2 zmr-0 zpl-10 zrounded-none ${
+            router.pathname === option.href ? 'bg-blue-100 zborder-l-4 zborder-blue-300' : ''
           }`}
         >
           {option.text}
@@ -149,26 +149,32 @@ export default function LayoutUser(props: LayoutUserProps) {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen text-black"> 
-      <div className="bg-slate-200 m-8 rounded-xl w-11/12 h-5/6">
-        <div className="flex flex-row w-full h-full">
-          <div className="flex flex-col bg-white w-72 rounded-md place-content-between">
+    <div className="flex flex-col md:flex-row justify-center items-center h-screen text-black"> 
+      <div className="bg-slate-200 m-8 md:flex-row flex-col rounded-xl w-11/12 md:h-5/6 h-full">
+        <div className="flex md:flex-row flex-col w-full h-full">
+          <div className="flex flex-col bg-white md:w-72 rounded-md md:place-content-between">
 
-            <section className='flex flex-col gap-10'>
-              <figure className="flex items-center justify-center gap-3 relative my-0 mt-3 p-5">
+            <section className='flex flex-col md:gap-10 gap-3'>
+              <figure className="flex items-center justify-center gap-3 relative my-0 mt-3 md:p-5 pt-3">
                 <Link href='/' className='flex gap-2'>
                   <figure className='flex justify-center items-center rounded-full p-0 ml-0 mr-0 bg-slate-900'>
                     <Image src="/images/logoLOGIN.png" width={40} height={40} alt="imagemDoCurso" />
                   </figure>
-                  <h2>Curso FA.</h2>
+                  <h2 className='font-bold md:font-normal'>Curso FA.</h2>
+                  <div className='flex ml-5 gap-3 md:hidden items-center'>
+                    <Link href={"https://www.instagram.com/felipealvesredacao/"}><Image src="/images/instagram.png" width={26} height={25} alt="imagemDoCurso"/></Link>
+                    <Link href={"https://api.whatsapp.com/send/?phone=5587981640749&text=matr%C3%ADculas+23&type=phone_number&app_absent=0"}><Image src="/images/whatsapp.png" width={26} height={24} alt="imagemDoCurso"/></Link>
+                    <Link href={"https://www.youtube.com/@cursofelipealves29"}><Image src="/images/youtube.png" width={27} height={27} alt="imagemDoCurso"/></Link>
+                  </div>
                 </Link>
               </figure>
-              <nav className="flex flex-col items-start w-full mt-">
+              <nav className="flex md:flex-col items-start md:w-full flex-wrap pl-3 md:pl-0 justify-center">
                 {getMenuLinks(props.usuario)}
               </nav>
             </section>
+            
             <section>
-              <div className='flex ml-5 gap-3'>
+              <div className='md:flex ml-5 gap-3 hidden'>
                 <Link href={"https://www.instagram.com/felipealvesredacao/"}><Image src="/images/instagram.png" width={26} height={25} alt="imagemDoCurso"/></Link>
                 <Link href={"https://api.whatsapp.com/send/?phone=5587981640749&text=matr%C3%ADculas+23&type=phone_number&app_absent=0"}><Image src="/images/whatsapp.png" width={26} height={24} alt="imagemDoCurso"/></Link>
                 <Link href={"https://www.youtube.com/@cursofelipealves29"}><Image src="/images/youtube.png" width={27} height={27} alt="imagemDoCurso"/></Link>
@@ -194,11 +200,13 @@ export default function LayoutUser(props: LayoutUserProps) {
             </section>
 
           </div>
+
           {props.divisoes ? (
             <div className={`w-full ${props.className}`}>{props.children}</div>
           ) : (
             <div className={`bg-white rounded-md w-full m-2 p-6 ${props.className}`}>{props.children}</div>
           )}
+
         </div>
       </div>
     </div>
