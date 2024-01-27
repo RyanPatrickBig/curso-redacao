@@ -69,7 +69,7 @@ export default function Login() {
                 <div className='flex flex-col items-start pb-10'>
                     <Link href="/" className="
                             flex justify-center items-center
-                            rounded-full p-1 md:m-1 md:ml-0 -ml-10">
+                            rounded-full p-1 blac md:m-1 md:ml-0 -ml-10">
                         {IconeVoltar}
                     </Link>
                 </div>

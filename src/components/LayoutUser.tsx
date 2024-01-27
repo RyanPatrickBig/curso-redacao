@@ -101,8 +101,8 @@ export default function LayoutUser(props: LayoutUserProps) {
     return menuOptions[userType].map((option, index) => (
       <Link legacyBehavior href={option.href} key={index}>
         <a
-          className={`text-black hover:bg-blue-50 zpr-32 zw-full zpy-2 zmr-0 zpl-10 zrounded-none ${
-            router.pathname === option.href ? 'bg-blue-100 zborder-l-4 zborder-blue-300' : ''
+          className={`text-black hover:bg-blue-50 md:pr-32 md:w-full md:py-2 md:mr-0 md:pl-10 px-2 mr-2 py-1 pb-2 rounded-full md:rounded-none ${
+            router.pathname === option.href ? 'bg-blue-100 md:border-l-4 md:border-blue-300' : ''
           }`}
         >
           {option.text}
@@ -149,7 +149,7 @@ export default function LayoutUser(props: LayoutUserProps) {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center h-screen text-black"> 
+    <div className="flex flex-col md:flex-row justify-center items-center md:h-screen h-fit text-black"> 
       <div className="bg-slate-200 m-8 md:flex-row flex-col rounded-xl w-11/12 md:h-5/6 h-full">
         <div className="flex md:flex-row flex-col w-full h-full">
           <div className="flex flex-col bg-white md:w-72 rounded-md md:place-content-between">
@@ -161,11 +161,11 @@ export default function LayoutUser(props: LayoutUserProps) {
                     <Image src="/images/logoLOGIN.png" width={40} height={40} alt="imagemDoCurso" />
                   </figure>
                   <h2 className='font-bold md:font-normal'>Curso FA.</h2>
-                  <div className='flex ml-5 gap-3 md:hidden items-center'>
+                  {/* <div className='flex ml-5 gap-3 md:hidden items-center'>
                     <Link href={"https://www.instagram.com/felipealvesredacao/"}><Image src="/images/instagram.png" width={26} height={25} alt="imagemDoCurso"/></Link>
                     <Link href={"https://api.whatsapp.com/send/?phone=5587981640749&text=matr%C3%ADculas+23&type=phone_number&app_absent=0"}><Image src="/images/whatsapp.png" width={26} height={24} alt="imagemDoCurso"/></Link>
                     <Link href={"https://www.youtube.com/@cursofelipealves29"}><Image src="/images/youtube.png" width={27} height={27} alt="imagemDoCurso"/></Link>
-                  </div>
+                  </div> */}
                 </Link>
               </figure>
               <nav className="flex md:flex-col items-start md:w-full flex-wrap pl-3 md:pl-0 justify-center">

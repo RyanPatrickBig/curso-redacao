@@ -28,25 +28,25 @@ export default function Tabela(props: TabelaProps){
 
     function renderizarAcoes(objeto: any){
         return (
-            <td className="flex justify-center gap-2">
+            <td className="flex md:flex-row flex-col justify-center items m-2 md:m-0 gap-2">
                 {props.objetoSelecionado ? (
                     <button onClick={() => props.objetoSelecionado?.(objeto)} className="
                         flex justify-center items-center
-                        rounded-full p-2 m-1 bg-slate-300 hover:bg-white">
+                        rounded-full md:p-2 p-1 md:m-1 bg-slate-300 hover:bg-white">
                             {IconeComentario}
                     </button>
                 ) : false}
                 {props.objetoExcluido ? (
                     <button onClick={() => props.objetoExcluido?.(objeto)} className="
                         flex justify-center items-center
-                        rounded-full p-2 m-1 bg-slate-300 hover:bg-white">
+                        rounded-full md:p-2 p-1 md:m-1 bg-slate-300 hover:bg-white">
                             {IconeDeletar}
                     </button>
                 ) : false}
                 {props.linkDoObjeto ? (
                     <Link href={objeto.link} className="
                         flex justify-center items-center
-                        rounded-full p-2 m-1 bg-slate-300 hover:bg-white">
+                        rounded-full md:p-2 p-1 md:m-1 bg-slate-300 hover:bg-white">
                             {IconeEnviar}
                     </Link>
                 ) : false}
