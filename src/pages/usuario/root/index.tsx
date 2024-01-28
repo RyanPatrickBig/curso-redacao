@@ -214,27 +214,33 @@ export default function RootAlunos() {
   };
 
     return (
-        <LayoutUser usuario={'root'} className="text-black">
+        <LayoutUser usuario={'root'} className="text-black md:text-md text-sm">
                 <Titulo>Alunos</Titulo>
-            <div className="flex flex-row items-center w-full">
+            <div className="md:flex md:flex-row grid grid-cols-2 md:gap-0 gap-6 items-center w-full">
                 <Select seletor={select1}
                         titulo="Turma"
                         setFiltro={setFiltro1}/>
                 <Select seletor={select2}
                         titulo="Mensalidade"
                         setFiltro={setFiltro2}/>
-                <Pesquisa setPesquisa={setPesquisa}/>
-                <Botao onClick={handleLogout} className="m-0 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+                <div className="col-span-2 -mt-6 -mb-3 md:mt-0 md:mb-0">
+                  <Pesquisa setPesquisa={setPesquisa}/>
+                </div>
+                <Botao onClick={handleLogout} className="m-0 md:ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
                 
             </div>
-            <TabelaRoot objeto={filtragem1}
-                    propriedadesExibidas={dados}
-                    cabecalho={cabecalho}
-                    objetoSelecionado={alunoSelecionado}
-                    objetoExcluido={alunoExcluido}
-                    abrirPagamento={abrirPagamento}
-                    pagamentos={pagamentos}
-                    />
+
+            <div className="overflow-auto">
+              <TabelaRoot objeto={filtragem1}
+                propriedadesExibidas={dados}
+                cabecalho={cabecalho}
+                objetoSelecionado={alunoSelecionado}
+                objetoExcluido={alunoExcluido}
+                abrirPagamento={abrirPagamento}
+                pagamentos={pagamentos}
+                />
+            </div>
+            
             <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Pagamento' : tipoModal == 'excluir' ? 'Tem certeza que deseja excluir:': "Editar Aluno"}>
             {tipoModal == 'selecionado' ? <ModalRootPagamento setRecarregar={setRecarregar} aluno={aluno} listaTurmas={listaTurmas} pagamentos={pagamentos} setPagamentos={setPagamentos}/>: tipoModal == 'excluir' ? <ModalExcluir objeto={aluno} exclusao={exclusao} />: 
             <ModalRootALunos listaTurmas={listaTurmas} aluno={aluno} novoAluno={alunoSelecionado} editar={edicao}/>}</Modal>

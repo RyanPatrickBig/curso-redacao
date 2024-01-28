@@ -66,7 +66,7 @@ export default function TurmasAluno() {
         </div>
       </section>
 
-      <section className="bg-white rounded-md w-auto h-5/6 m-2 mb-0">
+      <section className="bg-white rounded-md w-auto h-5/6 m-2">
         <div className="flex justify-center p-5 font-semibold">
           <h3>Suas Turmas</h3>
         </div>

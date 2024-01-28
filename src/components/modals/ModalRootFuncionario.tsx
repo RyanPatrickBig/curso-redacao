@@ -25,7 +25,7 @@ interface ModalRootFuncionarioProps {
 
     return(
         <div>
-            <div className="grid grid-rows-2 grid-flow-col bg-blue-200 rounded-lg p-3 my-3">
+            <div className="grid grid-rows-2 grid-flow-col overflow-auto md:max-w-none max-w-xs bg-blue-200 rounded-lg p-3 my-3 md:mx-0 mx-3">
                 <EntradaPerfil className="text-white" className2="bg-white rounded-xl text-black" texto="Nome" valor={nome} valorMudou={(valor) => setNome(valor)}/>
                 <EntradaPerfil className="text-white" className2="bg-white rounded-xl text-black" texto="CPF" valor={cpf} valorMudou={(valor) => setCpf(valor)} pattern={cpfRegex}/>
                 <EntradaPerfil className="text-white" className2="bg-white rounded-xl text-black" texto="RG" valor={rg} valorMudou={(valor) => setRg(valor)}/>

@@ -178,15 +178,18 @@ export default function RootFuncionarios() {
             <div className="flex place-content-between mb-10">
                 <Titulo>Funcionários</Titulo>
             </div>
-            <TabelaRoot
-            objeto={listagem}
-            propriedadesExibidas={dados}
-            cabecalho={cabecalho}
-            objetoSelecionado={editarFuncionario}
-            objetoExcluido={funcionarioExcluido}
-            salvarFuncionario={salvarFuncionario}
-            funcionario
-            />
+
+            <div className="overflow-auto">
+                <TabelaRoot
+                    objeto={listagem}
+                    propriedadesExibidas={dados}
+                    cabecalho={cabecalho}
+                    objetoSelecionado={editarFuncionario}
+                    objetoExcluido={funcionarioExcluido}
+                    salvarFuncionario={salvarFuncionario}
+                    funcionario
+                />
+            </div>
 
             <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Criar novo funcionário': tipoModal=='editar' ? 'Editar Funcionario' : 'Tem certeza que deseja excluir:'}
             subtitulo={tipoModal == 'excluir' && funcionario ? funcionario.nome : ''}

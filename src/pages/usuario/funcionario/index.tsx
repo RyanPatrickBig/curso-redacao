@@ -102,26 +102,26 @@ export default function PerfilFuncionario() {
     return (
         <LayoutUser usuario={'funcionario'} className="flex flex-col gap-2 text-black" divisoes>
             
-            <section className="bg-white rounded-md w-auto h-1/2 m-2 mb-0">
-                <div className="bg-gradient-to-r from-pink-500 to-pink-700 h-1/2 rounded-md"></div>
-                <div className="flex flex-row">
-                <figure className="-mt-16 ml-12 mr-2">
+            <section className="bg-white rounded-md w-auto md:h-1/2 h-full m-2 mb-0">
+                <div className="bg-gradient-to-r from-pink-500 to-pink-700 md:h-1/2 h-[12vh] rounded-md"></div>
+                <div className="flex md:flex-row flex-col items-center md:items-start">
+                <figure className="-mt-16 md:ml-12 md:mr-2">
                 <ImageUploader readOnly={editar} className="p-20" base64Image={base64Image} onImageUpload={(base64Image) => handleImageUpload(base64Image)} />
                 </figure>
-                <div className="flex place-content-between justify-between content-between w-full">
-                  <h2 className="mt-10 ml-5 w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
-                      <div className="flex">
-                        <Botao onClick={() => salvarFuncionario(new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} className="m-10 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
-                        <Botao onClick={handleLogout} className="m-10 ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
+                <div className="flex items-center md:place-content-between md:justify-between md:content-between w-full flex-col md:flex-row md:mb-0 mb-6">
+                  <h2 className="md:mt-10 mt-2 md:ml-5 md:w-full overflow-hidden max-h-20">{userProfile?.nome}</h2>
+                      <div className="flex gap-4">
+                        <Botao onClick={() => salvarFuncionario(new Funcionario(nome, cpf, rg, celular, email, senha, id, false))} className="md:m-10 md:mt-10 mt-4 md:mr-0 p-10 bg-blue-400">{editar == true ? 'Alterar':'Salvar'}</Botao>
+                        <Botao onClick={handleLogout} className="md:m-10 md:mt-10 mt-4 md:ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
                       </div>
                     </div>
                 </div>
             </section>
 
-            <div className="h-1/2 flex flex-row">
+            <div className="md:h-1/2 h-fit flex md:flex-row flex-col">
 
             {userProfile &&(
-                <section className="bg-white rounded-md w-1/2 h-auto m-2 mr-1 mt-0 p-6
+                <section className="bg-white rounded-md md:w-1/2 h-auto m-2 md:mr-1 mt-0 p-6 md:pr-6 pr-0
                                 grid grid-cols-2">
                     <EntradaPerfil texto="Nome" valor={userProfile.nome} somenteLeitura={editar} valorMudou={setNome} />
                     <EntradaPerfil texto="Número" valor={userProfile.celular}  somenteLeitura={editar} valorMudou={setCelular} />
@@ -129,7 +129,7 @@ export default function PerfilFuncionario() {
                     <EntradaPerfil texto="CPF" valor={userProfile.cpf}  somenteLeitura={editar} valorMudou={setCpf} />
                 </section>
                 )}
-                <figure className="bg-white rounded-md w-1/2 h-auto m-2 ml-1 mt-0 
+                <figure className="bg-white rounded-md md:w-1/2 h-auto m-2 md:ml-1 mt-0 p-6 md:pt-6 pt-0
                                 flex flex-col items-center">
                     <Image src='/images/logoLOGIN.png' width='250' height='250' alt='imagemDoCurso'/>
                 </figure>

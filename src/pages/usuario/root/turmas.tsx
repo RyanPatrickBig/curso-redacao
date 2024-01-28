@@ -195,14 +195,16 @@ export default function RootTurmas() {
                 <Botao onClick={() => turmaSelecionada()} className="mx-8 px-10">Gerenciar Turmas</Botao>
             </div>
             <Select seletor={select} titulo="Turma" setFiltro={setFiltro} />
-                    
-            <TabelaRoot objeto={filtragem}
-                    propriedadesExibidas={dados}
-                    cabecalho={cabecalho}
-                    objetoSelecionado={alunoSelecionado}
-                    objetoExcluido={alunoExcluido}
-                    turmas
-                    />
+
+            <div className="overflow-x-auto">
+              <TabelaRoot objeto={filtragem}
+                      propriedadesExibidas={dados}
+                      cabecalho={cabecalho}
+                      objetoSelecionado={alunoSelecionado}
+                      objetoExcluido={alunoExcluido}
+                      turmas
+                      />
+            </div>    
                     
             <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Gerenciar turma': tipoModal == 'excluir' ? 'Tem certeza que deseja excluir:' : "Editar Aluno"}
                 subtitulo={tipoModal == 'excluir' ? aluno.nome : ''} >

@@ -8,7 +8,7 @@ import Live from "@/core/Live";
 import Turma from "@/core/Turma";
 import { useState, useEffect } from "react";
 import {db} from "@/backend/config"
-import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 
 export default function FuncionarioLive() {
@@ -172,12 +172,12 @@ return (
 
         <Titulo>Marcar Live</Titulo>
         <Checkbox titulo="Turma (as)" opcoes={[...turmasUnicas]} setOpcao={setTurmas}/>
-        <div className="grid grid-cols-2 gap-10 w-fit">
+        <div className="md:grid md:grid-cols-2 flex flex-col gap-10 w-fit">
             <div>
-                <EntradaPerfil texto="Título" placeholder="Digite o título da live" className={'ml-9 mt-2 w-full'} valor={nome} valorMudou={setNome}/>
-                <EntradaPerfil texto="Link" placeholder="Link para acessar a live" className={'ml-9 mt-2 w-full'} valor={link} valorMudou={setLink}/>
-                <DatePicker titulo="Data Selecionada" classname="ml-9" setData={setData} valor={data} dataMin={new Date()}/>
-                <Botao onClick={adicao} className="w-36 bg-blue-400 ml-9 mt-4" cor={'blue'}>Marcar</Botao>
+                <EntradaPerfil texto="Título" placeholder="Digite o título da live" className={'ml-5 md:ml-9 mt-2 w-full'} valor={nome} valorMudou={setNome}/>
+                <EntradaPerfil texto="Link" placeholder="Link para acessar a live" className={'ml-5 md:ml-9 mt-2 w-full'} valor={link} valorMudou={setLink}/>
+                <DatePicker titulo="Data Selecionada" classname="ml-5 md:ml-9" setData={setData} valor={data} dataMin={new Date()}/>
+                <Botao onClick={adicao} className="w-36 bg-blue-400 ml-5 md:ml-9 mt-4" cor={'blue'}>Marcar</Botao>
             </div>
             
             <div>
@@ -193,9 +193,9 @@ return (
                                     {live.professor}
                                 </h3>
                             </div>
-                            {live.data instanceof Date && (
+                            {live.data instanceof Timestamp && (
                             <h4 className="text-gray-600 mt-2 font-semibold">
-                            {format(live.data, 'dd-MM-yyyy')} {live.nome}
+                            {format(live.data.toDate(), 'dd-MM-yyyy')} {live.nome}
                             </h4>
                             )}
                             <h4 className="text-gray-600 font-semibold">

@@ -35,7 +35,7 @@ export default function ModalAlunoMaterial(props: ModalAlunoMaterial){
       };
 
     return(
-        <div className="text-black">
+        <div className="text-black max-w-xs md:max-w-none">
             <section className="bg-pink-200 rounded-lg p-3 my-3">      
                 <div className="flex items-center mb-3 gap-1">
                     <div className=" flex justify-center items-center
@@ -44,19 +44,19 @@ export default function ModalAlunoMaterial(props: ModalAlunoMaterial){
                 </div>     
 
                 <div className="bg-white rounded-lg">
-                    <input type="text" className="rounded-md p-3 w-full outline-none" value={texto} onChange={handleTextoChange}
+                    <input type="text" className="rounded-md p-3 w-full outline-none flex flex-wrap" value={texto} onChange={handleTextoChange}
                     placeholder="Insira aqui sua dúvida e/ou comentário"/>
                 </div>
             </section>
 
-            <section className="flex place-content-between gap-10">
+            <section className="flex place-content-between md:gap-10 gap-3 md:flex-row flex-col">
                 <div className="flex justify-center bg-pink-400 rounded-lg p-2 px-3 gap-2 text-white font-bold font-Montserrant">
                     <h3>Avaliação</h3>
                     <Estrelas estrelas={estrelas} setEstrelas={setEstrelas}/>
                 </div>
                 <Botao className="p-10" onClick={handleEnviarComentario}>
-          Enviar
-        </Botao>
+                    Enviar
+                </Botao>
             </section>
         </div>
     )

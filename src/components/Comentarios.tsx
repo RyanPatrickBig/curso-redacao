@@ -9,7 +9,7 @@ import Comentario from "@/core/Comentario"
     export default function Comentarios(props: propsComentarios){
         
         return (
-            <div className="w-96 mx-3 text-black">
+            <div className="md:w-96 w-64 mx-3 text-black">
                 <h3 className="font-bold pt-2  text-gray-600">Comentários</h3>
                 <form>
                     <div className="flex flex-col pr-3 max-h-60 overflow-y-auto">
@@ -28,7 +28,7 @@ import Comentario from "@/core/Comentario"
                                     </svg>
                                 </div>
                             </div>
-                            <h4 className="text-gray-600 mt-2 font-semibold">
+                            <h4 className="text-gray-600 flex flex-wrap mt-2 font-semibold">
                                 {comentario.texto}
                             </h4>
                         </div>

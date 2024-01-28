@@ -125,18 +125,22 @@ export default function ListarMateriais() {
         <LayoutUser usuario={'funcionario'} className="text-black">
             <div className="flex place-content-between">
                 <Titulo>Listar Materiais</Titulo>
-                <Link href="/usuario/funcionario/materiais" className="px-10 mx-8 py-2 rounded-md text-white bg-pink-400">
+                <Link href="/usuario/funcionario/materiais" className="hidden md:block px-10 mx-8 py-2 rounded-md text-white bg-pink-400">
                     Postar Material
                 </Link>
             </div>
             <Select seletor={select} titulo="Disciplina" setFiltro={setFiltro}/>
-            <Tabela
-                objeto={filtragem}
-                propriedadesExibidas={dados}
-                cabecalho={cabecalho}
-                objetoSelecionado={materialSelecionado}
-                objetoExcluido={materialExcluido}
-            />
+            
+            <div className="overflow-auto">
+                <Tabela
+                    objeto={filtragem}
+                    propriedadesExibidas={dados}
+                    cabecalho={cabecalho}
+                    objetoSelecionado={materialSelecionado}
+                    objetoExcluido={materialExcluido}
+                />
+            </div>
+
             <Modal
                 isOpen={openModal}
                 isNotOpen={() => setOpenModal(!openModal)}

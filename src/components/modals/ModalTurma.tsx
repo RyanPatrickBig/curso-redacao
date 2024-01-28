@@ -73,7 +73,7 @@ export default function ModalRootTurma(props: ModalRootTurmaProps){
 
     return(
         <div>
-            <div className="grid grid-rows-3 grid-flow-col bg-pink-300 rounded-lg p-3 pr-0 pl-5 ml-3 my-3">
+            <div className="grid grid-rows-3 grid-flow-col overflow-auto max-w-xs md:max-w-none bg-pink-300 rounded-lg p-3 pr-0 pl-5 ml-3 my-3">
                 <EntradaPerfil className="text-white" className2="bg-white rounded-xl text-black" texto="Nome" valor={nome} valorMudou={setNome}/>
                 <EntradaPerfil className="text-white" className2="bg-white rounded-xl text-black" texto="disciplina" valor={disciplina} valorMudou={setDisciplina}/>
                 <EntradaPerfil className="text-white" className2="bg-white rounded-xl text-black" texto="professor" valor={professor} valorMudou={setProfessor}/>

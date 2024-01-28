@@ -204,7 +204,7 @@ export default function LayoutUser(props: LayoutUserProps) {
           {props.divisoes ? (
             <div className={`w-full ${props.className}`}>{props.children}</div>
           ) : (
-            <div className={`bg-white rounded-md w-full m-2 p-6 ${props.className}`}>{props.children}</div>
+            <div className={`bg-white rounded-md md:w-full w-auto m-2 p-6 ${props.className}`}>{props.children}</div>
           )}
 
         </div>

@@ -79,13 +79,16 @@ export default function FuncionarioTurmas() {
       </div>
       <Select seletor={select} titulo="Turma" setFiltro={setFiltro} />
 
-      <Tabela
-        objeto={filtragem}
-        propriedadesExibidas={dados}
-        cabecalho={cabecalho}
-        //objetoSelecionado={alunoSelecionado}
-       //objetoExcluido={excluirAluno}
-      />
+      <div className="overflow-auto">
+        <Tabela
+          objeto={filtragem}
+          propriedadesExibidas={dados}
+          cabecalho={cabecalho}
+          //objetoSelecionado={alunoSelecionado}
+        //objetoExcluido={excluirAluno}
+        />
+      </div>
+
       {aluno.id && (
         <div>
           <h2>Detalhes do Aluno</h2>

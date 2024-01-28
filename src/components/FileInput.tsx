@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 
 interface PropsArquivo {
   setArquivo?: (arquivo: any) => void;
+  className?: any
 }
 
 export default function DragAndDrop(props: PropsArquivo) {
@@ -76,7 +77,7 @@ export default function DragAndDrop(props: PropsArquivo) {
   }
 
   return (
-    <div className="flex flex-col items-start justify-center ml-10 w-full">
+    <div className={`flex flex-col items-start justify-center md:ml-10 ml-5 w-full ${props.className}`}>
       <h3 className="font-Montserrant">Arquivos</h3>
       <form
         className={`${

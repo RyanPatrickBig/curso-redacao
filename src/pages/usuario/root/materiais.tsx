@@ -128,7 +128,7 @@ export default function RootMateriais() {
       };
 
     return (
-        <LayoutUser usuario={'root'} className="text-black">
+        <LayoutUser usuario={'root'} className="text-black text-sm md:text-md">
             <div className="flex place-content-between">
                 <Titulo>Materiais</Titulo>
             </div>
@@ -138,12 +138,15 @@ export default function RootMateriais() {
             setFiltro={setFiltro}
             />
 
-            <Tabela objeto={filtragem} 
-                    propriedadesExibidas={dados}
-                    cabecalho={cabecalho}
-                    objetoSelecionado={materialSelecionado}
-                    objetoExcluido={materialExcluido}>
-            </Tabela>   
+            <div className="overflow-x-auto">
+                <Tabela objeto={filtragem} 
+                        propriedadesExibidas={dados}
+                        cabecalho={cabecalho}
+                        objetoSelecionado={materialSelecionado}
+                        objetoExcluido={materialExcluido}>
+                </Tabela>   
+            </div>
+                
             <Modal isOpen={openModal} isNotOpen={() => setOpenModal(!openModal)} cor='white' titulo={tipoModal == 'selecionado' ? 'Análise de Feedback': 'Tem certeza que deseja excluir:'}
             subtitulo={material.nome}>{tipoModal == 'selecionado' ? <ModalRootMateriais comentarios={comentarios} material={material} alunos={alunos} />:<ModalExcluir objeto={material} exclusao={exclusao}/>}</Modal>         
         </LayoutUser>

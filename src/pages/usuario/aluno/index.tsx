@@ -262,7 +262,7 @@ export default function AlunoIndex() {
                 </div>
             </section>
 
-            <section className="bg-white rounded-md w-auto h-4/5 m-2 mb-0">
+            <section className="bg-white rounded-md w-auto h-4/5 m-2 ">
                 <div className="ml-8 py-4">
                     <h3 className="font-Monteserrant font-semibold">Materiais</h3>
                     {turmasDoAluno.map((turma, index) => (

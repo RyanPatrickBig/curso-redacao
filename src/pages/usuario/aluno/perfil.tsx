@@ -175,7 +175,7 @@ export default function AlunoPage() {
 
   return (
     <ProtectedRoute>
-      <LayoutUser usuario={'aluno'} className="flex flex-col gap-2" divisoes>
+      <LayoutUser usuario={'aluno'} className="flex flex-col gap-2 text-black" divisoes>
         <div className="bg-white rounded-md w-auto md:h-1/2 h-full m-2 mb-0">
           <div className="bg-gradient-to-r from-blue-400 to-pink-600 md:h-1/2 h-[12vh] rounded-md"></div>
           <div className="flex md:flex-row flex-col items-center md:items-start">
@@ -184,7 +184,7 @@ export default function AlunoPage() {
             </figure>
             <div className="flex items-center md:place-content-between md:justify-between md:content-between w-full flex-col md:flex-row md:mb-0 mb-6">
               <h2 className="md:mt-10 mt-2 md:ml-5 md:w-full overflow-hidden max-h-20">{userProfile?.nome}</h2> 
-              <div className="flex gap-2">
+              <div className="flex gap-4">
                 <Botao onClick={handleSave} className="md:m-10 md:mt-10 mt-4 md:mr-0 p-10 bg-blue-400" cor="blue">{editar ? 'Alterar' : 'Salvar'}</Botao>
                 <Botao onClick={handleLogout} className="md:m-10 md:mt-10 mt-4 md:ml-3 p-10 bg-slate-400" cor="slate">Sair</Botao>
               </div>
@@ -194,7 +194,7 @@ export default function AlunoPage() {
         <div className="h-1/2 flex md:flex-row flex-col">
 
           {userProfile && (
-            <div className="bg-white rounded-md md:w-1/2 h-auto m-2 mr-1 mt-0 p-6
+            <div className="bg-white rounded-md md:w-1/2 h-auto m-2 md:mr-1 mt-0 p-6 md:pr-6 pr-0
                                 grid grid-cols-2">
               <PerfilDados texto="Modalidade" valor={userProfile.modalidade} somenteLeitura={true} />
               <PerfilDados texto="Nome" valor={userProfile.nome} somenteLeitura={editar} valorMudou={setNomeEditavel} />
@@ -205,11 +205,11 @@ export default function AlunoPage() {
             </div>
           )}
 
-          <div className="bg-white rounded-md md:w-1/2 h-auto m-2 ml-1 mt-0 p-6 md:pt-6 pt-0
+          <div className="bg-white rounded-md md:w-1/2 h-auto m-2 md:ml-1 mt-0 p-6 md:pt-6 pt-0
                                 flex flex-col items-center">
             <h1 className="pt-5">{diasRestantes} Dias</h1>
             <h4>Para o próximo pagamento</h4>
-            <div className="bg-gray-200 h-6 w-80 mt-8 rounded-xl">
+            <div className="bg-gray-200 h-6 md:w-80 w-64 mt-8 rounded-xl">
               <div className="h-6 bg-gradient-to-r from-blue-400 to-pink-600 rounded-xl" style={{ width: `${porcentagemPercorrida}%` }}></div>
             </div>
           </div>

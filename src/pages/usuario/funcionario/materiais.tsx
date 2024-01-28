@@ -147,16 +147,16 @@ export default function Materiais() {
 
             <div className="flex place-content-between">
                 <Titulo>Postar Material</Titulo>
-                <Link href="/usuario/funcionario/listarMateriais" className="px-10 mx-8 py-2 rounded-md text-white bg-pink-400">Listar Materiais</Link>
+                <Link href="/usuario/funcionario/listarMateriais" className="hidden md:block px-10 mx-8 py-2 rounded-md text-white bg-pink-400">Listar Materiais</Link>
             </div>
             <Checkbox titulo="Turma (as)" opcoes={[...turmasUnicas]} setOpcao={setTurmas}/>
-            <div className="grid grid-cols-2 w-3/4">
-                <EntradaPerfil texto="Título" placeholder="Digite o título da atividade" className={'ml-9 mt-2 w-full'} valor={nome} valorMudou={setNome}/>
-                <EntradaPerfil texto="Descrição" placeholder="Digite a descrição da atividade" className={'ml-9 mt-2 w-full'} valor={descricao} valorMudou={setDescricao}/>
-                <EntradaPerfil texto="Link" placeholder="Link usado no material (opcional)" className={'ml-9 mt-2 w-full'} valor={link} valorMudou={setLink}/>
-                <DatePicker titulo="Data Selecionada" classname="ml-9" setData={setData}/>
-                <FileInput setArquivo={setArquivo}/>
-                <Botao onClick={adicao} className="w-36 bg-blue-400 ml-9 mt-4 h-10" cor={'blue'}>Enviar</Botao>
+            <div className="grid grid-cols-2 w-3/4 mt-3 md:mt-0">
+                <EntradaPerfil texto="Título" placeholder="Digite o título da atividade" className={'ml-5 md:ml-9 mt-2 w-full'} valor={nome} valorMudou={setNome}/>
+                <EntradaPerfil texto="Descrição" placeholder="Digite a descrição da atividade" className={'ml-5 md:ml-9 mt-2 w-full'} valor={descricao} valorMudou={setDescricao}/>
+                <EntradaPerfil texto="Link" placeholder="Link usado no material (opcional)" className={'ml-5 md:ml-9 mt-2 w-full'} valor={link} valorMudou={setLink}/>
+                <DatePicker titulo="Data Selecionada" classname="ml-5 md:ml-9" setData={setData}/>
+                <FileInput setArquivo={setArquivo} className={"col-span-2"}/>
+                <Botao onClick={adicao} className="w-36 bg-blue-400 ml-5 md:ml-9 mt-4 h-10" cor={'blue'}>Enviar</Botao>
             </div>
         </LayoutUser>
     )
