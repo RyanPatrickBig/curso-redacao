@@ -70,9 +70,11 @@ export default function TurmasAluno() {
         <div className="flex justify-center p-5 font-semibold">
           <h3>Suas Turmas</h3>
         </div>
-        <Tabela objeto={alunoTurmas}
-          propriedadesExibidas={dados}
-          cabecalho={cabecalho}></Tabela>
+        <div className="overflow-auto max-h-[78%]">
+          <Tabela objeto={alunoTurmas}
+            propriedadesExibidas={dados}
+            cabecalho={cabecalho}></Tabela>
+        </div>
       </section>
 
     </LayoutUser>

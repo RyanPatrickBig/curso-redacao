@@ -138,7 +138,7 @@ export default function RootMateriais() {
             setFiltro={setFiltro}
             />
 
-            <div className="overflow-x-auto">
+            <div className="overflow-auto max-h-[73%]">
                 <Tabela objeto={filtragem} 
                         propriedadesExibidas={dados}
                         cabecalho={cabecalho}

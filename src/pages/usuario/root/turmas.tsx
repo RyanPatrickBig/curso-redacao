@@ -196,7 +196,7 @@ export default function RootTurmas() {
             </div>
             <Select seletor={select} titulo="Turma" setFiltro={setFiltro} />
 
-            <div className="overflow-x-auto">
+            <div className="overflow-auto max-h-[73%]">
               <TabelaRoot objeto={filtragem}
                       propriedadesExibidas={dados}
                       cabecalho={cabecalho}

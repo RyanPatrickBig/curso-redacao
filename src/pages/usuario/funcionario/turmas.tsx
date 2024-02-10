@@ -79,7 +79,7 @@ export default function FuncionarioTurmas() {
       </div>
       <Select seletor={select} titulo="Turma" setFiltro={setFiltro} />
 
-      <div className="overflow-auto">
+      <div className="overflow-auto max-h-[73%]">
         <Tabela
           objeto={filtragem}
           propriedadesExibidas={dados}

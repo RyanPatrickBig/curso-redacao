@@ -131,7 +131,7 @@ export default function ListarMateriais() {
             </div>
             <Select seletor={select} titulo="Disciplina" setFiltro={setFiltro}/>
             
-            <div className="overflow-auto">
+            <div className="overflow-auto max-h-[72%]">
                 <Tabela
                     objeto={filtragem}
                     propriedadesExibidas={dados}

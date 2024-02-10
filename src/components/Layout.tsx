@@ -10,7 +10,7 @@ export default function Layout(props: any) {
     };
     
     return (
-        <div className={`bg-white flex flex-col flex-wrap m-6 rounded-xl text-black md:w-fit min-w-[53vh] md:min-w-0`}>
+        <div className={`bg-white flex flex-col flex-wrap m-6 items-center content-center rounded-xl text-black min-w-[62vh] md:w-fit`}>
             <header className="flex gap-3 flex-col md:flex-row mx-24 md:my-10 mt-8 justify-between items-center font-semibold ">
 
                 <div className='flex'>
@@ -31,7 +31,7 @@ export default function Layout(props: any) {
                     <Link className='flex justify-center items-center order-4 md:order-1' href="/">Cursos</Link>
                     <Link className='flex justify-center items-center order-3 md:order-2' href="quemSomos">Quem somos</Link>
                     <Link className='flex justify-center items-center order-2 md:order-3' href="https://correcao.cursofelipealves.com.br/student/login">Correção de redação</Link>
-                    <div className='flex gap-3 m-3 md:gap-10 order-first md:order-last'>
+                    <div className='flex gap-3 md:m-3 md:gap-10 order-first md:order-last'>
                         <Link href="/login" className="flex justify-center border-b-2 border-sky-500 px-12 py-1 font-bold">Entrar</Link>
                         <Link href="/cadastro" className="flex justify-center text-white bg-sky-500 rounded-lg px-12 py-2 m-0">Cadastrar</Link>
                     </div>

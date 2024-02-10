@@ -276,14 +276,16 @@ export default function AlunoIndex() {
                 ))}
 
                 </div>
-              <Tabela
-                objeto={materiaisDisciplinaSelecionada}
-                propriedadesExibidas={dados}
-                cabecalho={cabecalho}
-                objetoSelecionado={materialSelecionado}
-                linkDoObjeto
-                linkDoMaterial={(material) => material.arquivo}
-              />
+              <div className="overflow-auto max-h-[78%]">
+                <Tabela
+                  objeto={materiaisDisciplinaSelecionada}
+                  propriedadesExibidas={dados}
+                  cabecalho={cabecalho}
+                  objetoSelecionado={materialSelecionado}
+                  linkDoObjeto
+                  linkDoMaterial={(material) => material.arquivo}
+                />
+              </div>
             </section>
             
             <Modal

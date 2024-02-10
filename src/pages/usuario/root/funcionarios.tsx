@@ -179,7 +179,7 @@ export default function RootFuncionarios() {
                 <Titulo>Funcionários</Titulo>
             </div>
 
-            <div className="overflow-auto">
+            <div className="overflow-auto max-h-[86%]">
                 <TabelaRoot
                     objeto={listagem}
                     propriedadesExibidas={dados}

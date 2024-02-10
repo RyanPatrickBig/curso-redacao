@@ -230,7 +230,7 @@ export default function RootAlunos() {
                 
             </div>
 
-            <div className="overflow-auto">
+            <div className="overflow-auto max-h-[73%]">
               <TabelaRoot objeto={filtragem1}
                 propriedadesExibidas={dados}
                 cabecalho={cabecalho}
